@@ -350,8 +350,10 @@ export default{
             fields: {
                 username: '',
                 lname: '', fname: '', mname: '', suffix: '',
+                civil_status: '',
                 password: '', password_confirmation : '', office_id: 0,
-                sex : '', role: '', contact_no : '',
+                sex : '', role: '', contact_no : '', birthdate: null,
+                province: '', city: '', barangay: '', street: '',
             },
             errors: {},
             offices: [],
@@ -511,6 +513,7 @@ export default{
             this.fields.mname = '';
             this.fields.suffix = '';
             this.fields.sex = '';
+            this.fields.civil_status = ''
             this.fields.password = '';
             this.fields.password_confirmation = '';
             this.fields.role = '';
@@ -528,9 +531,36 @@ export default{
             this.global_id = data_id;
             this.isModalCreate = true;
 
+
             //nested axios for getting the address 1 by 1 or request by request
             axios.get('/users/'+data_id).then(res=>{
                 this.fields = res.data;
+                this.fields.office = res.data.office_id;
+                let tempData = res.data;
+                //load city first
+                axios.get('/load-cities?prov=' + this.fields.province).then(res=>{
+                    //load barangay
+                    this.cities = res.data;
+                    axios.get('/load-barangays?prov=' + this.fields.province + '&city_code='+this.fields.city).then(res=>{
+                        this.barangays = res.data;
+                        this.fields.birthdate = new Date(tempData.birthdate);
+                        this.fields.username = tempData.username
+                        this.fields.lname = tempData.lname
+                        this.fields.fname = tempData.fname
+                        this.fields.mname = tempData.mname
+                        this.fields.sex = tempData.sex
+                        this.fields.civil_status = tempData.civil_status
+                        this.fields.suffix = tempData.suffix
+                        this.fields.role = tempData.role
+                        this.fields.contact_no = tempData.contact_no
+
+                        this.fields.province = tempData.province
+                        this.fields.city = tempData.city
+                        this.fields.barangay = tempData.barangay
+                        this.fields.street = tempData.street
+
+                    });
+                });
             });
         },
 

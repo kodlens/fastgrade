@@ -39,7 +39,8 @@ class UserController extends Controller
 
     public function store(Request $req){
         //this will create random unique QR code
-        $qr_code = substr(md5(time() . $req->lname . $req->fname), -8);
+        //$qr_code = substr(md5(time() . $req->lname . $req->fname), -8);
+        //return $req;
 
         $validate = $req->validate([
             'username' => ['required', 'max:50', 'unique:users'],
@@ -55,7 +56,7 @@ class UserController extends Controller
             'office_id.required_if' => 'The office field is required when role is STAFF.'
         ]);
 
-        $birthdate = strtotime('Y-m-d', $req->birthdate);
+        $birthdate = date('Y-m-d', strtotime($req->birthdate));
 
         User::create([
 
@@ -88,12 +89,15 @@ class UserController extends Controller
     }
 
     public function update(Request $req, $id){
+        $bdate = date('Y-m-d', strtotime($req->birthdate));
+
         $validate = $req->validate([
             'username' => ['required', 'max:50', 'unique:users,username,'.$id.',user_id'],
             'lname' => ['required', 'string', 'max:100'],
             'fname' => ['required', 'string', 'max:100'],
             'sex' => ['required', 'string', 'max:20'],
             'role' => ['required', 'string'],
+            'birthdate' => ['required'],
             'office_id' => ['required_if:role,STAFF',]
         ],[
             'office_id.required_if' => 'The office field is required when role is STAFF.'
@@ -105,9 +109,16 @@ class UserController extends Controller
         $data->fname = strtoupper($req->fname);
         $data->mname = strtoupper($req->mname);
         $data->suffix = strtoupper($req->suffix);
+        $data->civil_status = strtoupper($req->civil_status);
+        $data->birthdate = $bdate;
         $data->office_id = $req->office_id;
         $data->sex = $req->sex;
         $data->role = $req->role;
+
+        $data->province = $req->province;
+        $data->city = $req->city;
+        $data->barangay = $req->barangay;
+        $data->street = $req->street;
 
         $data->save();
 

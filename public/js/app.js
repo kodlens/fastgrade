@@ -8299,12 +8299,18 @@ __webpack_require__.r(__webpack_exports__);
         fname: '',
         mname: '',
         suffix: '',
+        civil_status: '',
         password: '',
         password_confirmation: '',
         office_id: 0,
         sex: '',
         role: '',
-        contact_no: ''
+        contact_no: '',
+        birthdate: null,
+        province: '',
+        city: '',
+        barangay: '',
+        street: ''
       },
       errors: {},
       offices: [],
@@ -8459,6 +8465,7 @@ __webpack_require__.r(__webpack_exports__);
       this.fields.mname = '';
       this.fields.suffix = '';
       this.fields.sex = '';
+      this.fields.civil_status = '';
       this.fields.password = '';
       this.fields.password_confirmation = '';
       this.fields.role = '';
@@ -8477,6 +8484,30 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/users/' + data_id).then(function (res) {
         _this5.fields = res.data;
+        _this5.fields.office = res.data.office_id;
+        var tempData = res.data; //load city first
+
+        axios.get('/load-cities?prov=' + _this5.fields.province).then(function (res) {
+          //load barangay
+          _this5.cities = res.data;
+          axios.get('/load-barangays?prov=' + _this5.fields.province + '&city_code=' + _this5.fields.city).then(function (res) {
+            _this5.barangays = res.data;
+            _this5.fields.birthdate = new Date(tempData.birthdate);
+            _this5.fields.username = tempData.username;
+            _this5.fields.lname = tempData.lname;
+            _this5.fields.fname = tempData.fname;
+            _this5.fields.mname = tempData.mname;
+            _this5.fields.sex = tempData.sex;
+            _this5.fields.civil_status = tempData.civil_status;
+            _this5.fields.suffix = tempData.suffix;
+            _this5.fields.role = tempData.role;
+            _this5.fields.contact_no = tempData.contact_no;
+            _this5.fields.province = tempData.province;
+            _this5.fields.city = tempData.city;
+            _this5.fields.barangay = tempData.barangay;
+            _this5.fields.street = tempData.street;
+          });
+        });
       });
     },
     loadOffices: function loadOffices() {
