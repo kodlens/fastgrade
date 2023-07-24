@@ -52,11 +52,20 @@
                 <b-navbar-item href="/dashboard">
                     Home
                 </b-navbar-item>
+                <b-navbar-item href="/academic-years">
+                    Academic Years
+                </b-navbar-item>
+                <b-navbar-item href="/courses">
+                    Courses
+                </b-navbar-item>
+                <b-navbar-item href="/schedules">
+                    Schedules
+                </b-navbar-item>
                 <b-navbar-item href="/offices">
-                    Office
+                    Offices
                 </b-navbar-item>
                 <b-navbar-item href="/users">
-                    User
+                    Users
                 </b-navbar-item>
                 
                 <b-navbar-item tag="div">

@@ -58,25 +58,28 @@ Route::get('/load-barangays', [App\Http\Controllers\AddressController::class, 'l
 /*     ADMINSITRATOR          */
 
 //authenticate
-Route::middleware(['auth', 'admin'])->group(function() {
+Route::middleware(['auth'])->group(function() {
 
     Route::resource('/dashboard', App\Http\Controllers\Administrator\DashboardController::class);
     
     Route::resource('/offices', App\Http\Controllers\Administrator\OfficeController::class);
     Route::get('/get-offices', [App\Http\Controllers\Administrator\OfficeController::class, 'getOffices']);
     Route::get('/get-offices-for-routes', [App\Http\Controllers\Administrator\OfficeController::class, 'getOfficesForRoutes']);
-
 });
 
 
 Route::middleware(['auth', 'admin'])->group(function() {
 
-    Route::resource('/document-routes', App\Http\Controllers\Administrator\DocumentRouteController::class);
-    Route::get('/get-admin-document-routes', [App\Http\Controllers\Administrator\DocumentRouteController::class, 'getDocumentRoutes']);
+    Route::resource('/academic-years', App\Http\Controllers\Administrator\AcademicYearController::class);
+    Route::get('/get-academic-years', [App\Http\Controllers\Administrator\AcademicYearController::class, 'getData']);
 
-    Route::resource('/document-route-details', App\Http\Controllers\Administrator\DocumentRouteDetailController::class);
+    Route::resource('/courses', App\Http\Controllers\Administrator\CourseController::class);
+    Route::get('/get-courses', [App\Http\Controllers\Administrator\CourseController::class, 'getData']);
 
     Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
+    Route::get('/get-users', [App\Http\Controllers\Administrator\UserController::class, 'getUsers']);
+    
+      Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
     Route::get('/get-users', [App\Http\Controllers\Administrator\UserController::class, 'getUsers']);
     
 
