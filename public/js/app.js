@@ -8225,6 +8225,58 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -8260,7 +8312,10 @@ __webpack_require__.r(__webpack_exports__);
         'is-success': true,
         'button': true,
         'is-loading': false
-      }
+      },
+      provinces: [],
+      cities: [],
+      barangays: []
     };
   },
   methods: {
@@ -8408,6 +8463,9 @@ __webpack_require__.r(__webpack_exports__);
       this.fields.password_confirmation = '';
       this.fields.role = '';
       this.fields.contact_no = '';
+      this.fields.province = '';
+      this.fields.city = '';
+      this.fields.barangay = '';
     },
     //update code here
     getData: function getData(data_id) {
@@ -8427,11 +8485,34 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/get-offices-for-routes').then(function (res) {
         _this6.offices = res.data;
       });
+    },
+    //addresses
+    loadProvince: function loadProvince() {
+      var _this7 = this;
+
+      axios.get('/load-provinces').then(function (res) {
+        _this7.provinces = res.data;
+      });
+    },
+    loadCity: function loadCity() {
+      var _this8 = this;
+
+      axios.get('/load-cities?prov=' + this.fields.province).then(function (res) {
+        _this8.cities = res.data;
+      });
+    },
+    loadBarangay: function loadBarangay() {
+      var _this9 = this;
+
+      axios.get('/load-barangays?prov=' + this.fields.province + '&city_code=' + this.fields.city).then(function (res) {
+        _this9.barangays = res.data;
+      });
     }
   },
   mounted: function mounted() {
     this.loadAsyncData();
     this.loadOffices();
+    this.loadProvince();
   }
 });
 
@@ -29881,6 +29962,44 @@ var render = function () {
                             "b-field",
                             {
                               attrs: {
+                                label: "Birthdate",
+                                "label-position": "on-border",
+                                expanded: "",
+                                type: this.errors.birthdate ? "is-danger" : "",
+                                message: this.errors.birthdate
+                                  ? this.errors.birthdate[0]
+                                  : "",
+                              },
+                            },
+                            [
+                              _c("b-datepicker", {
+                                attrs: {
+                                  required: "",
+                                  placeholder: "Birthdate",
+                                },
+                                model: {
+                                  value: _vm.fields.birthdate,
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.fields, "birthdate", $$v)
+                                  },
+                                  expression: "fields.birthdate",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "column" },
+                        [
+                          _c(
+                            "b-field",
+                            {
+                              attrs: {
                                 label: "Contact No",
                                 "label-position": "on-border",
                                 type: this.errors.contact_no ? "is-danger" : "",
@@ -30024,7 +30143,7 @@ var render = function () {
                               _c(
                                 "b-select",
                                 {
-                                  attrs: { expanded: "" },
+                                  attrs: { expanded: "", required: "" },
                                   model: {
                                     value: _vm.fields.sex,
                                     callback: function ($$v) {
@@ -30158,6 +30277,189 @@ var render = function () {
                           ),
                         ])
                       : _vm._e(),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "columns" }, [
+                      _c(
+                        "div",
+                        { staticClass: "column" },
+                        [
+                          _c(
+                            "b-field",
+                            {
+                              attrs: {
+                                label: "Province",
+                                "label-position": "on-border",
+                                expanded: "",
+                                type: this.errors.province ? "is-danger" : "",
+                                message: this.errors.province
+                                  ? this.errors.province[0]
+                                  : "",
+                              },
+                            },
+                            [
+                              _c(
+                                "b-select",
+                                {
+                                  attrs: { expanded: "" },
+                                  on: { input: _vm.loadCity },
+                                  model: {
+                                    value: _vm.fields.province,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.fields, "province", $$v)
+                                    },
+                                    expression: "fields.province",
+                                  },
+                                },
+                                _vm._l(_vm.provinces, function (item, index) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      key: index,
+                                      domProps: { value: item.provCode },
+                                    },
+                                    [_vm._v(_vm._s(item.provDesc))]
+                                  )
+                                }),
+                                0
+                              ),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "column" },
+                        [
+                          _c(
+                            "b-field",
+                            {
+                              attrs: {
+                                label: "City",
+                                "label-position": "on-border",
+                                expanded: "",
+                                type: this.errors.city ? "is-danger" : "",
+                                message: this.errors.city
+                                  ? this.errors.city[0]
+                                  : "",
+                              },
+                            },
+                            [
+                              _c(
+                                "b-select",
+                                {
+                                  attrs: { expanded: "" },
+                                  on: { input: _vm.loadBarangay },
+                                  model: {
+                                    value: _vm.fields.city,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.fields, "city", $$v)
+                                    },
+                                    expression: "fields.city",
+                                  },
+                                },
+                                _vm._l(_vm.cities, function (item, index) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      key: index,
+                                      domProps: { value: item.citymunCode },
+                                    },
+                                    [_vm._v(_vm._s(item.citymunDesc))]
+                                  )
+                                }),
+                                0
+                              ),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "columns" }, [
+                      _c(
+                        "div",
+                        { staticClass: "column" },
+                        [
+                          _c(
+                            "b-field",
+                            {
+                              attrs: {
+                                label: "Barangay",
+                                "label-position": "on-border",
+                                expanded: "",
+                                type: this.errors.barangay ? "is-danger" : "",
+                                message: this.errors.barangay
+                                  ? this.errors.barangay[0]
+                                  : "",
+                              },
+                            },
+                            [
+                              _c(
+                                "b-select",
+                                {
+                                  attrs: { expanded: "" },
+                                  model: {
+                                    value: _vm.fields.barangay,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.fields, "barangay", $$v)
+                                    },
+                                    expression: "fields.barangay",
+                                  },
+                                },
+                                _vm._l(_vm.barangays, function (item, index) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      key: index,
+                                      domProps: { value: item.brgyCode },
+                                    },
+                                    [_vm._v(_vm._s(item.brgyDesc))]
+                                  )
+                                }),
+                                0
+                              ),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "column" },
+                        [
+                          _c(
+                            "b-field",
+                            {
+                              attrs: {
+                                label: "Street",
+                                "label-position": "on-border",
+                              },
+                            },
+                            [
+                              _c("b-input", {
+                                attrs: { placeholder: "Street" },
+                                model: {
+                                  value: _vm.fields.street,
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.fields, "street", $$v)
+                                  },
+                                  expression: "fields.street",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                    ]),
                   ]),
                 ]),
                 _vm._v(" "),

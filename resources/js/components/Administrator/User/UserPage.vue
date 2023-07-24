@@ -182,6 +182,16 @@
 
                             <div class="columns">
                                 <div class="column">
+                                    <b-field label="Birthdate" label-position="on-border" expanded
+                                        :type="this.errors.birthdate ? 'is-danger':''"
+                                        :message="this.errors.birthdate ? this.errors.birthdate[0] : ''">
+                                        <b-datepicker v-model="fields.birthdate" 
+                                            required 
+                                            placeholder="Birthdate"></b-datepicker>
+                                    </b-field>
+                                </div>
+
+                                <div class="column">
                                     <b-field label="Contact No" label-position="on-border"
                                              :type="this.errors.contact_no ? 'is-danger':''"
                                              :message="this.errors.contact_no ? this.errors.contact_no[0] : ''">
@@ -216,10 +226,10 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Sex" label-position="on-border" expanded
-                                             :type="this.errors.sex ? 'is-danger':''"
-                                             :message="this.errors.sex ? this.errors.sex[0] : ''"
-                                            >
-                                        <b-select v-model="fields.sex" expanded>
+                                        :type="this.errors.sex ? 'is-danger':''"
+                                        :message="this.errors.sex ? this.errors.sex[0] : ''"
+                                    >
+                                        <b-select v-model="fields.sex" expanded required>
                                             <option value="MALE">MALE</option>
                                             <option value="FEMALE">FEMALE</option>
                                         </b-select>
@@ -228,8 +238,8 @@
 
                                 <div class="column">
                                     <b-field label="Role" label-position="on-border" expanded
-                                             :type="this.errors.role ? 'is-danger':''"
-                                             :message="this.errors.role ? this.errors.role[0] : ''">
+                                            :type="this.errors.role ? 'is-danger':''"
+                                            :message="this.errors.role ? this.errors.role[0] : ''">
                                         <b-select v-model="fields.role" expanded>
                                             <option value="ADMINISTRATOR">ADMINISTRATOR</option>
                                             <option value="STAFF">STAFF</option>
@@ -252,6 +262,48 @@
                                     </b-field>
                                 </div>
                             </div>
+
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Province" label-position="on-border" expanded
+                                             :type="this.errors.province ? 'is-danger':''"
+                                             :message="this.errors.province ? this.errors.province[0] : ''">
+                                        <b-select v-model="fields.province" @input="loadCity" expanded>
+                                            <option v-for="(item, index) in provinces" :key="index" :value="item.provCode">{{ item.provDesc }}</option>
+                                        </b-select>
+                                    </b-field>
+                                </div>
+
+                                <div class="column">
+                                    <b-field label="City" label-position="on-border" expanded
+                                             :type="this.errors.city ? 'is-danger':''"
+                                             :message="this.errors.city ? this.errors.city[0] : ''">
+                                        <b-select v-model="fields.city" @input="loadBarangay" expanded>
+                                            <option v-for="(item, index) in cities" :key="index" :value="item.citymunCode">{{ item.citymunDesc }}</option>
+                                        </b-select>
+                                    </b-field>
+                                </div>
+                            </div>
+
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Barangay" label-position="on-border" expanded
+                                             :type="this.errors.barangay ? 'is-danger':''"
+                                             :message="this.errors.barangay ? this.errors.barangay[0] : ''">
+                                        <b-select v-model="fields.barangay" expanded>
+                                            <option v-for="(item, index) in barangays" :key="index" :value="item.brgyCode">{{ item.brgyDesc }}</option>
+                                        </b-select>
+                                    </b-field>
+                                </div>
+                                <div class="column">
+                                    <b-field label="Street" label-position="on-border">
+                                        <b-input v-model="fields.street"
+                                                 placeholder="Street">
+                                        </b-input>
+                                    </b-field>
+                                </div>
+                            </div>
+
                         </div>
                     </section>
                     <footer class="modal-card-foot">
@@ -309,6 +361,10 @@ export default{
                 'button': true,
                 'is-loading':false,
             },
+
+            provinces: [],
+            cities: [],
+            barangays: [],
 
         }
 
@@ -460,6 +516,9 @@ export default{
             this.fields.role = '';
          
             this.fields.contact_no = '';
+            this.fields.province = ''
+            this.fields.city = ''
+            this.fields.barangay = ''
         },
 
 
@@ -479,13 +538,35 @@ export default{
             axios.get('/get-offices-for-routes').then(res=>{
                 this.offices = res.data;
             });
-        }
+        },
+
+
+
+        //addresses
+        loadProvince: function(){
+            axios.get('/load-provinces').then(res=>{
+                this.provinces = res.data;
+            })
+        },
+
+        loadCity: function(){
+            axios.get('/load-cities?prov=' + this.fields.province).then(res=>{
+                this.cities = res.data;
+            })
+        },
+
+        loadBarangay: function(){
+            axios.get('/load-barangays?prov=' + this.fields.province + '&city_code='+this.fields.city).then(res=>{
+                this.barangays = res.data;
+            })
+        },
 
     },
 
     mounted() {
         this.loadAsyncData();
         this.loadOffices()
+        this.loadProvince()
     }
 }
 </script>

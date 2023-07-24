@@ -48,11 +48,14 @@ class UserController extends Controller
             'sex' => ['required', 'string', 'max:20'],
             'password' => ['required', 'string', 'confirmed'],
             'role' => ['required', 'string'],
+            'birthdate' => ['required'],
             'office_id' => ['required_if:role,STAFF',],
             
         ],[
             'office_id.required_if' => 'The office field is required when role is STAFF.'
         ]);
+
+        $birthdate = strtotime('Y-m-d', $req->birthdate);
 
         User::create([
 
@@ -61,11 +64,21 @@ class UserController extends Controller
             'lname' => strtoupper($req->lname),
             'fname' => strtoupper($req->fname),
             'mname' => strtoupper($req->mname),
-            'sex' => $req->sex,
             'suffix' => strtoupper($req->suffix),
-            'contact_no' => $req->contact_no,
+            'sex' => $req->sex,
+            'civil_status' => strtoupper($req->civil_status),
+
             'office_id' => $req->office_id ? $req->office_id : 0,
+            'contact_no' => $req->contact_no,
+            'birthdate' => $birthdate,
+
             'role' => $req->role,
+            'is_activated' => $req->is_activated,
+
+            'province' => $req->province,
+            'city' => $req->city,
+            'barangay' => $req->barangay,
+            'street' => $req->street,
 
         ]);
 

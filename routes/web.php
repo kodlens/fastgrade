@@ -48,6 +48,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 
+//for open request
+//ADDRESS
+Route::get('/load-provinces', [App\Http\Controllers\AddressController::class, 'loadProvinces']);
+Route::get('/load-cities', [App\Http\Controllers\AddressController::class, 'loadCities']);
+Route::get('/load-barangays', [App\Http\Controllers\AddressController::class, 'loadBarangays']);
+
 
 /*     ADMINSITRATOR          */
 

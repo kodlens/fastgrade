@@ -45,8 +45,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
-
     public function office(){
         return $this->hasOne(Office::class, 'office_id', 'office_id');
     }
