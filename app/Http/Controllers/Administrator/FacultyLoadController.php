@@ -11,8 +11,10 @@ use App\Models\Schedule;
 class FacultyLoadController extends Controller
 {
     //
-    public function index(){
-        return view('administrator.faculty_load.faculty-load');
+    public function index($id){
+        $user = user::where('user_id', $id)->first();
+        return view('administrator.faculty.faculty-load')
+            ->with('user', $user);
     }
 
 
