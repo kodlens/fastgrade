@@ -28,7 +28,7 @@
                                 <div class="level-item">
                                     <b-field label="Search">
                                         <b-input type="text"
-                                                 v-model="search.course" placeholder="Search Academic Year"
+                                                 v-model="search.course" placeholder="Search Course"
                                                  @keyup.native.enter="loadAsyncData"/>
                                         <p class="control">
                                              <b-tooltip label="Search" type="is-success">
@@ -66,8 +66,12 @@
                                 {{ props.row.course_code }}
                             </b-table-column>
 
-                            <b-table-column field="name" label="Description" v-slot="props">
+                            <b-table-column field="course_desc" label="Description" v-slot="props">
                                 {{ props.row.course_desc }}
+                            </b-table-column>
+
+                            <b-table-column field="course_type" label="Type" v-slot="props">
+                                {{ props.row.course_type }}
                             </b-table-column>
 
                             <b-table-column field="course_unit" label="Unit" v-slot="props">
@@ -168,9 +172,6 @@
                         </div>
                     </section>
                     <footer class="modal-card-foot">
-                        <b-button
-                            label="Close"
-                            @click="isModalCreate=false"/>
                         <button
                             :class="btnClass"
                             label="Save"

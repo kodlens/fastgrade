@@ -3,9 +3,9 @@
         <div class="section">
             <div class="columns is-centered">
                 <div class="column is-6-desktop is-8-tablet">
-                    <div class="box box-table">
+                    <div class="box">
 
-                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">LIST OF OFFICES</div>
+                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">OFFICES</div>
 
                         <div class="level">
                             <div class="level-left">
@@ -44,6 +44,8 @@
                             :data="data"
                             :loading="loading"
                             paginated
+                            :bordered="true"
+                            :hoverable="true"
                             backend-pagination
                             :total="total"
                             :per-page="perPage"
@@ -84,7 +86,8 @@
                         <div class="float-button">
                             <b-button @click="openModal" 
                                 icon-right="plus-circle-outline" 
-                                class="is-success is-rounded is-large">
+                                class="is-success"
+                                label="NEW OFFICE">
                             </b-button>
                         </div>
                         

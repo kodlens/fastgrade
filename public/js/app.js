@@ -8143,6 +8143,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     var _fields;
@@ -8367,6 +8368,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
 //
 //
 //
@@ -30430,7 +30434,7 @@ var render = function () {
                             _c("b-input", {
                               attrs: {
                                 type: "text",
-                                placeholder: "Search Academic Year",
+                                placeholder: "Search Course",
                               },
                               nativeOn: {
                                 keyup: function ($event) {
@@ -30555,7 +30559,7 @@ var render = function () {
                     }),
                     _vm._v(" "),
                     _c("b-table-column", {
-                      attrs: { field: "name", label: "Description" },
+                      attrs: { field: "course_desc", label: "Description" },
                       scopedSlots: _vm._u([
                         {
                           key: "default",
@@ -30564,6 +30568,24 @@ var render = function () {
                               _vm._v(
                                 "\n                            " +
                                   _vm._s(props.row.course_desc) +
+                                  "\n                        "
+                              ),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
+                      attrs: { field: "course_type", label: "Type" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(props.row.course_type) +
                                   "\n                        "
                               ),
                             ]
@@ -30917,30 +30939,16 @@ var render = function () {
                   ]),
                 ]),
                 _vm._v(" "),
-                _c(
-                  "footer",
-                  { staticClass: "modal-card-foot" },
-                  [
-                    _c("b-button", {
-                      attrs: { label: "Close" },
-                      on: {
-                        click: function ($event) {
-                          _vm.isModalCreate = false
-                        },
-                      },
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        class: _vm.btnClass,
-                        attrs: { label: "Save", type: "is-success" },
-                      },
-                      [_vm._v("SAVE")]
-                    ),
-                  ],
-                  1
-                ),
+                _c("footer", { staticClass: "modal-card-foot" }, [
+                  _c(
+                    "button",
+                    {
+                      class: _vm.btnClass,
+                      attrs: { label: "Save", type: "is-success" },
+                    },
+                    [_vm._v("SAVE")]
+                  ),
+                ]),
               ]),
             ]
           ),
@@ -31017,7 +31025,7 @@ var render = function () {
           _c("div", { staticClass: "column is-6-desktop is-8-tablet" }, [
             _c(
               "div",
-              { staticClass: "box box-table" },
+              { staticClass: "box" },
               [
                 _c(
                   "div",
@@ -31025,7 +31033,7 @@ var render = function () {
                     staticClass: "is-flex is-justify-content-center mb-2",
                     staticStyle: { "font-size": "20px", "font-weight": "bold" },
                   },
-                  [_vm._v("LIST OF OFFICES")]
+                  [_vm._v("OFFICES")]
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "level" }, [
@@ -31182,6 +31190,8 @@ var render = function () {
                       data: _vm.data,
                       loading: _vm.loading,
                       paginated: "",
+                      bordered: true,
+                      hoverable: true,
                       "backend-pagination": "",
                       total: _vm.total,
                       "per-page": _vm.perPage,
@@ -31333,8 +31343,11 @@ var render = function () {
                   { staticClass: "float-button" },
                   [
                     _c("b-button", {
-                      staticClass: "is-success is-rounded is-large",
-                      attrs: { "icon-right": "plus-circle-outline" },
+                      staticClass: "is-success",
+                      attrs: {
+                        "icon-right": "plus-circle-outline",
+                        label: "NEW OFFICE",
+                      },
                       on: { click: _vm.openModal },
                     }),
                   ],

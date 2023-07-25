@@ -21,22 +21,21 @@ class CourseController extends Controller
 
     public function getData(Request $req){
         $sort = explode('.', $req->sort_by);
-        return Course::where('course_code', 'like', $req->course . '%')
-            ->orWhere('course_desc', 'like', $req->cousrse . '%')
+        return Course::where('course_code', 'like', '%' . $req->course . '%')
+            ->orWhere('course_desc', 'like', '%'. $req->cousrse . '%')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
     }
 
     public function store(Request $req){
         
-        return $req;
+        //return $req;
 
         $req->validate([
             'course_code' => ['required'],
             'course_desc' =>  ['required'],
             'course_unit' => ['required'],
             'course_type' => ['required'],
-            
         ]);
 
         Course::create([
@@ -44,7 +43,6 @@ class CourseController extends Controller
             'course_desc' => strtoupper($req->course_desc),
             'course_unit' => $req->course_unit,
             'course_type' => strtoupper($req->course_type),
-
         ]);
 
         return response()->json([
@@ -55,14 +53,13 @@ class CourseController extends Controller
 
 
     public function update(Request $req, $id){
-        return $req;
+        //return $req;
 
         $req->validate([
             'course_code' => ['required'],
             'course_desc' =>  ['required'],
             'course_unit' => ['required'],
             'course_type' => ['required'],
-            
         ]);
 
         $data = Course::find($id);
@@ -71,6 +68,7 @@ class CourseController extends Controller
         $data->course_desc = strtoupper($req->course_desc);
         $data->course_type = strtoupper($req->course_type);
         $data->course_unit = strtoupper($req->course_unit);
+        $data->save();
 
         return response()->json([
             'status' => 'updated'
