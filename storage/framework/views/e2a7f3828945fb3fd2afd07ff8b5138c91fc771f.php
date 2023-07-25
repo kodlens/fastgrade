@@ -69,8 +69,8 @@
                 </b-navbar-dropdown>
 
                 <b-navbar-dropdown label="Faculty">
-                    <b-navbar-item href="/faculty-load">
-                        Faculty Load
+                    <b-navbar-item href="/faculty-loads">
+                        Faculty Loads
                     </b-navbar-item>
                 </b-navbar-dropdown>
 

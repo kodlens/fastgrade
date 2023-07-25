@@ -54,6 +54,7 @@ Route::get('/load-provinces', [App\Http\Controllers\AddressController::class, 'l
 Route::get('/load-cities', [App\Http\Controllers\AddressController::class, 'loadCities']);
 Route::get('/load-barangays', [App\Http\Controllers\AddressController::class, 'loadBarangays']);
 
+Route::get('/load-acadyears', [App\Http\Controllers\AddressController::class, 'loadAcadYears']);
 
 /*     ADMINSITRATOR          */
 
@@ -76,10 +77,14 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::resource('/courses', App\Http\Controllers\Administrator\CourseController::class);
     Route::get('/get-courses', [App\Http\Controllers\Administrator\CourseController::class, 'getData']);
 
+    Route::resource('/faculty-loads', App\Http\Controllers\Administrator\FacultyLoadController::class);
+    Route::get('/get-faculty-loads', [App\Http\Controllers\Administrator\FacultyLoadController::class, 'getData']);
+    Route::get('/get-modal-schedules', [App\Http\Controllers\Administrator\FacultyLoadController::class, 'getModalSchedules']);
+
     Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
     Route::get('/get-users', [App\Http\Controllers\Administrator\UserController::class, 'getUsers']);
     
-      Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
+    Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
     Route::get('/get-users', [App\Http\Controllers\Administrator\UserController::class, 'getUsers']);
     
 

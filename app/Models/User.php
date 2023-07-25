@@ -61,6 +61,10 @@ class User extends Authenticatable
         return $this->hasOne(Office::class, 'office_id', 'office_id');
     }
 
+    public function faculty_loads(){
+        return $this->hasMany(FacultyLoad::class, 'user_id', 'user_id')
+            ->leftJoin('schedules', 'faculty_loads.schedule_id', 'schedules.schedule_id')
+            ->leftJoin('academic_years', 'faculty_loads.academic_year_id', 'academic_years.academic_year_id');
 
-
+    }
 }

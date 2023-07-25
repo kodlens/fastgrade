@@ -68,7 +68,46 @@ class UserSeeder extends Seeder
                 'civil_status' => 'SINGLE',
                 'office_id' => 2,
                 'contact_no' => '09655138165',
-                'role' => 'DEAN',
+                'role' => 'FACULTY',
+                'password' => Hash::make('a')
+            ],
+            [
+                'username' => 'junrey',
+                'lname' => 'SANTARITA',
+                'fname' => 'JUNREY',
+                'mname' => '',
+                'suffix' => '',
+                'sex' => 'MALE',
+                'civil_status' => 'SINGLE',
+                'office_id' => 2,
+                'contact_no' => '09655138165',
+                'role' => 'FACULTY',
+                'password' => Hash::make('a')
+            ],
+            [
+                'username' => 'etet',
+                'lname' => 'AMPARADO',
+                'fname' => 'ETIENNE WAYNE',
+                'mname' => '',
+                'suffix' => '',
+                'sex' => 'MALE',
+                'civil_status' => 'SINGLE',
+                'office_id' => 2,
+                'contact_no' => '09655138165',
+                'role' => 'FACULTY',
+                'password' => Hash::make('a')
+            ],
+            [
+                'username' => 'makmak',
+                'lname' => 'BASAYA',
+                'fname' => 'MC GYVER',
+                'mname' => '',
+                'suffix' => '',
+                'sex' => 'MALE',
+                'civil_status' => 'SINGLE',
+                'office_id' => 2,
+                'contact_no' => '09655138165',
+                'role' => 'FACULTY',
                 'password' => Hash::make('a')
             ],
 
