@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-field>
-            <b-button class="button is-primary is-small" icon-left="calendar-arrow-right" @click="openModal">Schedule</b-button>
+            <b-button class="button is-primary" icon-left="calendar-arrow-right" @click="openModal">Schedule</b-button>
         </b-field>
 
 
@@ -12,17 +12,10 @@
                     <p class="modal-card-title">SELECT SCHEDULE</p>
                     <button type="button" class="delete"
                             @click="isModalActive = false" />
-
                 </header>
 
                 <section class="modal-card-body">
                     <div>
-
-                        <b-field label="Academic Year" label-position="on-border" expanded>
-                            <b-select v-if="propAcadYears" v-model="search.aycode" expande @input="loadAsyncData">
-                                <option v-for="(item, index) in propAcadYears" :key="index" :value="item.code">{{ item.code }}</option>
-                            </b-select>
-                        </b-field>
 
                         <b-field label="Search" label-position="on-border" >
                             <b-input type="text" v-model="search.scheduleid" placeholder="Search Schedule Id..." expanded auto-focus></b-input>
@@ -55,15 +48,22 @@
                                 </b-table-column>
 
                                 <b-table-column field="schedule_id" label="Program" v-slot="props">
-                                    {{props.row.program.program_code }}
+                                    <span v-if="props.row.program">
+                                         {{ props.row.program.program_code }}
+                                    </span>
+                                   
                                 </b-table-column>
 
                                 <b-table-column field="course_code" label="Course Code" v-slot="props">
                                     {{props.row.course.course_code}}
                                 </b-table-column>
 
-                                <b-table-column field="schedule_time" label="Schedule Time" v-slot="props">
+                                <b-table-column field="course_desc" label="Description" v-slot="props">
                                     {{props.row.course.course_desc}}
+                                </b-table-column>
+
+                                <b-table-column field="schedule_time" label="Schedule Time" v-slot="props">
+                                    {{props.row.start_time | formatTime}} - {{ props.row.end_time | formatTime }}
                                 </b-table-column>
 
                                 <b-table-column field="day" label="Day" v-slot="props">
@@ -102,7 +102,7 @@
 
 <script>
 export default {
-    props: ['propCourse', 'propAcadYears'],
+    props: ['propAcadYearId'],
 
     data(){
         return{
@@ -117,8 +117,6 @@ export default {
 
             isModalActive: false,
             errors:{},
-
-            acadYears: [],
 
             search: {
                 scheduleid: '',
@@ -136,8 +134,7 @@ export default {
                 `sort_by=${this.sortfield}.${this.sortOrder}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`,
-                `aycode=${this.search.aycode}`,
-                `course=${this.search.course}`,
+                `ayid=${this.propAcadYearId}`,
             ].join('&');
 
             this.loading = true;
@@ -189,6 +186,7 @@ export default {
 
         initData(){
             this.acadYears = JSON.parse(this.propAcadYears);
+            this.acadYearId = this.propAcadYearId
         }
 
     },
@@ -196,9 +194,7 @@ export default {
 
 
     computed: {
-        valueCourse(){
-            return this.propCourse;
-        }
+        
     },
 
 }

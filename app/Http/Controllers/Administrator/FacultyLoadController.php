@@ -13,8 +13,12 @@ class FacultyLoadController extends Controller
     //
     public function index($id){
         $user = user::where('user_id', $id)->first();
+        $acadYears = AcademicYear::orderBy('academic_year_code', 'desc')->get();
+
         return view('administrator.faculty.faculty-load')
-            ->with('user', $user);
+            ->with('user', $user)
+            ->with('acadYears', $acadYears);
+
     }
 
 
@@ -38,10 +42,10 @@ class FacultyLoadController extends Controller
         $ayid = $req->ayid;
         $sort = explode('.', $req->sort_by);
 
-        $sched = Schedule::where('academic_year_id', $ayid)
+        $sched = Schedule::with(['course', 'program'])
+            ->where('academic_year_id', $ayid)
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
-
         return $sched;
     }
 
