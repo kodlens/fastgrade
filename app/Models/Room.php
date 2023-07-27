@@ -15,4 +15,7 @@ class Room extends Model
 
 
     protected $fillable = ['room', 'room_desc', 'max'];
+
+
+    
 }

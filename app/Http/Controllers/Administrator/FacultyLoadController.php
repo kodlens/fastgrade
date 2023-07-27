@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\AcademicYear;
 use App\Models\User;
 use App\Models\Schedule;
+use App\Models\FacultyLoad;
 
 class FacultyLoadController extends Controller
 {
@@ -42,11 +43,41 @@ class FacultyLoadController extends Controller
         $ayid = $req->ayid;
         $sort = explode('.', $req->sort_by);
 
-        $sched = Schedule::with(['course', 'program'])
+        $sched = Schedule::with(['course', 'program', 'room'])
             ->where('academic_year_id', $ayid)
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
         return $sched;
     }
 
+    public function getIndividualLoads($id, $ayid){
+
+        return FacultyLoad::with(['schedule', 'schedule.room', 'schedule.course'])->where('user_id', $id)
+            ->where('academic_year_id', $ayid)
+            ->get();
+    }
+
+    public function store(Request $req){
+        //return $req;
+
+        $req->validate([
+            'user_id' => ['required'],
+        ]);
+
+
+        
+        $data = [];
+        foreach($req->loads as $load){
+            array_push($data, [
+                'academic_year_id' => $load['academic_year_id'],
+                'user_id' => $req->user_id,
+                'schedule_id' => $load['schedule_id']
+            ]);
+        }
+        FacultyLoad::insert($data);
+
+        return response()->json([
+            'status' => 'saved'
+        ], 200);
+    }
 }

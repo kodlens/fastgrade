@@ -70,7 +70,6 @@
                                 {{ props.row.created_at | formatDateTime }}
                             </b-table-column>
                          
-
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">

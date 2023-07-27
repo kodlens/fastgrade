@@ -28,5 +28,9 @@ class FacultyLoad extends Model
         return $this->hasOne(Room::class, 'room_id', 'room_id');
     }
 
+    public function schedule(){
+        return $this->hasOne(Schedule::class, 'schedule_id', 'schedule_id');
+    }
+
 
 }

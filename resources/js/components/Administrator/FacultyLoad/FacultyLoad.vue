@@ -2,12 +2,12 @@
     <div>
         <div class="section">
             <div class="columns is-centered">
-                <div class="column is-8">
+                <div class="column is-10">
                     <div class="box">
                         <div class="has-text-weight-bold">MANAGE FACULTY LOAD</div>
                         <br>
                         <b-field label="Academic Year" label-position="on-border">
-                            <b-select v-model="acadYear">
+                            <b-select v-model="acadYear" @input="loadFacultyLoads">
                                 <option v-for="(item, ixx) in acadYears" :key="ixx" :value="item.academic_year_id">
                                     {{ item.academic_year_code }} - {{ item.academic_year_desc }}
                                 </option>
@@ -37,6 +37,7 @@
                                         <th>Type/Unit</th>
                                         <th>Schedule</th>
                                         <th>Day</th>
+                                        <th>Room</th>
                                     </tr>
 
                                     <tr v-for="(item, ix) in facultyLoads" :key="ix">
@@ -54,12 +55,18 @@
                                             <span v-if="item.sat">SAT</span>
                                             <span v-if="item.sun">SUN</span>
                                         </td>
+                                        <td>{{ item.room }}</td>
+
                                     </tr>
                                 </table>
+                                <hr>
+                                <div class="buttons is-right m-4">
+                                    <b-button class="is-info is-outlined"
+                                        @click="submit"
+                                        label="Save"></b-button>
+                                </div>
+                            </div><!--faculty body -->
 
-                            </div>
-
-                           
                         </div>
                         
                     </div>
@@ -83,7 +90,6 @@ export default{
             acadYears: [],
             acadYear: null,
 
-
             facultyLoads: [],
         }
 
@@ -94,20 +100,49 @@ export default{
         initData(){
             this.user = JSON.parse(this.propUser)
             this.acadYears = JSON.parse(this.propAcadYears)
+
+        },
+
+        loadFacultyLoads(){
+            
+            axios.get('/get-individual-loads/' + this.user.user_id + '/' + this.acadYear).then(res=>{
+                this.facultyLoads = [];
+                console.log('res data', res.data)
+                res.data.forEach(el => {
+                    this.facultyLoads.push({
+                        academic_year_id: this.acadYear,
+                        schedule_id: el.schedule_id,
+                        course_id: el.schedule.course_id,
+                        course_code: el.schedule.course.course_code,
+                        course_desc: el.schedule.course.course_desc,
+                        course_type: el.schedule.course.course_type,
+                        course_unit: el.schedule.course.course_unit,
+                        start_time: el.schedule.start_time,
+                        end_time: el.schedule.end_time,
+                        room_id: el.schedule.room.room_id,
+                        room: el.schedule.room.room,
+                        mon: el.schedule.mon,
+                        tue: el.schedule.tue,
+                        wed: el.schedule.wed,
+                        thu: el.schedule.thu,
+                        fri: el.schedule.fri,
+                        sat: el.schedule.sat,
+                        sun: el.schedule.sun
+                    })
+                });
+
+            }).catch(err=>{
+            
+            })
         },
 
 
-        addRow(){
-            this.facultyLoads.push({
-
-            });
-        },
         removeRow(ix){
             this.facultyLoads.splice(ix, 1);
         },
 
         emitBrowseSchedule(row){
-            
+            console.log(row)
             // avoid double select from schedule list
             let flag = false;
             let id = row.schedule_id;
@@ -129,6 +164,7 @@ export default{
                     course_unit: row.course.course_unit,
                     start_time: row.start_time,
                     end_time: row.end_time,
+                    room_id: row.room_id,
                     mon: row.mon,
                     tue: row.tue,
                     wed: row.wed,
@@ -138,7 +174,35 @@ export default{
                     sun: row.sun
                 })
             }
-        }
+        },
+
+        submit(){
+            let facultyLoad = {
+                user_id: this.user.user_id,
+                loads: this.facultyLoads
+            }
+
+            axios.post('/faculty-load-store', facultyLoad).then(res=>{
+                console.log(res.data)
+                if(res.data.status === 'saved'){
+                    this.$buefy.dialog.alert({
+                        title: 'SAVED.',
+                        message: 'Successfully saved.',
+                        type: 'is-success',
+                        onConfirm: () => {
+                            this.facultyLoad = {}; //clear obj
+                            this.facultyLoads = []; //clear array loads
+
+                            this.loadFacultyLoads();
+                        }
+                    })
+                }
+
+                //this.facultyLoads = [];
+            }).catch(err=>{
+                //this.facultyLoads = [];
+            })
+        },
     },
 
     mounted() {

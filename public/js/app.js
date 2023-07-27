@@ -8441,6 +8441,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['propUser', 'propAcadYears'],
   data: function data() {
@@ -8456,14 +8463,42 @@ __webpack_require__.r(__webpack_exports__);
       this.user = JSON.parse(this.propUser);
       this.acadYears = JSON.parse(this.propAcadYears);
     },
-    addRow: function addRow() {
-      this.facultyLoads.push({});
+    loadFacultyLoads: function loadFacultyLoads() {
+      var _this = this;
+
+      axios.get('/get-individual-loads/' + this.user.user_id + '/' + this.acadYear).then(function (res) {
+        _this.facultyLoads = [];
+        console.log('res data', res.data);
+        res.data.forEach(function (el) {
+          _this.facultyLoads.push({
+            academic_year_id: _this.acadYear,
+            schedule_id: el.schedule_id,
+            course_id: el.schedule.course_id,
+            course_code: el.schedule.course.course_code,
+            course_desc: el.schedule.course.course_desc,
+            course_type: el.schedule.course.course_type,
+            course_unit: el.schedule.course.course_unit,
+            start_time: el.schedule.start_time,
+            end_time: el.schedule.end_time,
+            room_id: el.schedule.room.room_id,
+            room: el.schedule.room.room,
+            mon: el.schedule.mon,
+            tue: el.schedule.tue,
+            wed: el.schedule.wed,
+            thu: el.schedule.thu,
+            fri: el.schedule.fri,
+            sat: el.schedule.sat,
+            sun: el.schedule.sun
+          });
+        });
+      })["catch"](function (err) {});
     },
     removeRow: function removeRow(ix) {
       this.facultyLoads.splice(ix, 1);
     },
     emitBrowseSchedule: function emitBrowseSchedule(row) {
-      // avoid double select from schedule list
+      console.log(row); // avoid double select from schedule list
+
       var flag = false;
       var id = row.schedule_id;
       this.facultyLoads.forEach(function (el) {
@@ -8483,6 +8518,7 @@ __webpack_require__.r(__webpack_exports__);
           course_unit: row.course.course_unit,
           start_time: row.start_time,
           end_time: row.end_time,
+          room_id: row.room_id,
           mon: row.mon,
           tue: row.tue,
           wed: row.wed,
@@ -8492,6 +8528,34 @@ __webpack_require__.r(__webpack_exports__);
           sun: row.sun
         });
       }
+    },
+    submit: function submit() {
+      var _this2 = this;
+
+      var facultyLoad = {
+        user_id: this.user.user_id,
+        loads: this.facultyLoads
+      };
+      axios.post('/faculty-load-store', facultyLoad).then(function (res) {
+        console.log(res.data);
+
+        if (res.data.status === 'saved') {
+          _this2.$buefy.dialog.alert({
+            title: 'SAVED.',
+            message: 'Successfully saved.',
+            type: 'is-success',
+            onConfirm: function onConfirm() {
+              _this2.facultyLoad = {}; //clear obj
+
+              _this2.facultyLoads = []; //clear array loads
+
+              _this2.loadFacultyLoads();
+            }
+          });
+        } //this.facultyLoads = [];
+
+      })["catch"](function (err) {//this.facultyLoads = [];
+      });
     }
   },
   mounted: function mounted() {
@@ -9245,7 +9309,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
 //
 //
 //
@@ -32514,7 +32577,7 @@ var render = function () {
   return _c("div", [
     _c("div", { staticClass: "section" }, [
       _c("div", { staticClass: "columns is-centered" }, [
-        _c("div", { staticClass: "column is-8" }, [
+        _c("div", { staticClass: "column is-10" }, [
           _c(
             "div",
             { staticClass: "box" },
@@ -32537,6 +32600,7 @@ var render = function () {
                   _c(
                     "b-select",
                     {
+                      on: { input: _vm.loadFacultyLoads },
                       model: {
                         value: _vm.acadYear,
                         callback: function ($$v) {
@@ -32651,10 +32715,27 @@ var render = function () {
                             _vm._v(" "),
                             item.sun ? _c("span", [_vm._v("SUN")]) : _vm._e(),
                           ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.room))]),
                         ])
                       }),
                     ],
                     2
+                  ),
+                  _vm._v(" "),
+                  _c("hr"),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "buttons is-right m-4" },
+                    [
+                      _c("b-button", {
+                        staticClass: "is-info is-outlined",
+                        attrs: { label: "Save" },
+                        on: { click: _vm.submit },
+                      }),
+                    ],
+                    1
                   ),
                 ]),
               ]),
@@ -32683,6 +32764,8 @@ var staticRenderFns = [
       _c("th", [_vm._v("Schedule")]),
       _vm._v(" "),
       _c("th", [_vm._v("Day")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Room")]),
     ])
   },
 ]
