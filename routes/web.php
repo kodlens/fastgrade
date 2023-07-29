@@ -111,16 +111,5 @@ Route::get('/applogout', function(Request $req){
     $req->session()->regenerateToken();
 });
 
-
 //hello kigwa//
-//Testing
-
-
-
-Route::get('/test', function(){
-    return 'hi i am test';
-});
-
-//something
-//something merge conflict will happen
-
+//Testingtesting"
