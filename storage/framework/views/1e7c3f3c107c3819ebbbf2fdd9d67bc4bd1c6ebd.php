@@ -1,0 +1,1 @@
+I am student profile<?php /**PATH C:\Users\Administrator\Desktop\Projects\fastgrade\resources\views/student/student-profile.blade.php ENDPATH**/ ?>

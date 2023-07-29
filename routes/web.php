@@ -117,3 +117,6 @@ Route::get('/applogout', function(Request $req){
 Route::get('/test', function(){
     return 'hi i am test';
 });
+Route::get('/student-profile', function(){
+    return  view('student.student-profile');
+});
