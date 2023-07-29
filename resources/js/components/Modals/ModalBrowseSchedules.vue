@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-field>
-            <b-button class="button is-primary" icon-left="calendar-arrow-right" @click="openModal">Schedule</b-button>
+            <b-button class="button is-primary" icon-left="calendar-arrow-right" @click="openModal">New Schedule</b-button>
         </b-field>
 
 

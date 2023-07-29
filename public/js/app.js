@@ -8447,6 +8447,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['propUser', 'propAcadYears'],
   data: function data() {
@@ -8454,7 +8461,8 @@ __webpack_require__.r(__webpack_exports__);
       user: {},
       acadYears: [],
       acadYear: null,
-      facultyLoads: []
+      facultyLoads: [],
+      isLoading: false
     };
   },
   methods: {
@@ -8470,6 +8478,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log('res data', res.data);
         res.data.forEach(function (el) {
           _this.facultyLoads.push({
+            faculty_load_id: el.faculty_load_id,
             academic_year_id: _this.acadYear,
             schedule_id: el.schedule_id,
             course_id: el.schedule.course_id,
@@ -8492,8 +8501,33 @@ __webpack_require__.r(__webpack_exports__);
         });
       })["catch"](function (err) {});
     },
-    removeRow: function removeRow(ix) {
-      this.facultyLoads.splice(ix, 1);
+    removeLoad: function removeLoad(id, ix) {
+      var _this2 = this;
+
+      this.$buefy.dialog.confirm({
+        title: 'Delete?',
+        message: 'Are you sure you want to remove this load?',
+        type: 'is-danger',
+        onConfirm: function onConfirm() {
+          if (id > 0) {
+            axios["delete"]('/faculty-load-delete/' + id).then(function (res) {
+              if (res.data.status === 'deleted') {
+                _this2.$buefy.dialog.alert({
+                  title: 'Deleted.',
+                  message: 'Deleted successfully.',
+                  type: 'is-info'
+                });
+
+                _this2.loadFacultyLoads();
+              }
+
+              ;
+            });
+          } else {
+            _this2.facultyLoads.splice(ix, 1);
+          }
+        }
+      });
     },
     emitBrowseSchedule: function emitBrowseSchedule(row) {
       console.log(row); // avoid double select from schedule list
@@ -8508,6 +8542,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (!flag) {
         this.facultyLoads.push({
+          faculty_load_id: 0,
           academic_year_id: this.acadYear,
           schedule_id: row.schedule_id,
           course_id: row.course_id,
@@ -8526,34 +8561,44 @@ __webpack_require__.r(__webpack_exports__);
           sat: row.sat,
           sun: row.sun
         });
+      } else {
+        this.$buefy.dialog.alert({
+          title: 'Existed!',
+          message: 'Schedule already added.',
+          type: 'is-info'
+        });
       }
     },
     submit: function submit() {
-      var _this2 = this;
+      var _this3 = this;
 
+      this.isLoading = true;
       var facultyLoad = {
         user_id: this.user.user_id,
         loads: this.facultyLoads
       };
       axios.post('/faculty-load-store', facultyLoad).then(function (res) {
         console.log(res.data);
+        _this3.isLoading = false;
 
         if (res.data.status === 'saved') {
-          _this2.$buefy.dialog.alert({
+          _this3.$buefy.dialog.alert({
             title: 'SAVED.',
             message: 'Successfully saved.',
             type: 'is-success',
             onConfirm: function onConfirm() {
-              _this2.facultyLoad = {}; //clear obj
+              _this3.facultyLoad = {}; //clear obj
 
-              _this2.facultyLoads = []; //clear array loads
+              _this3.facultyLoads = []; //clear array loads
 
-              _this2.loadFacultyLoads();
+              _this3.loadFacultyLoads();
             }
           });
         } //this.facultyLoads = [];
 
-      })["catch"](function (err) {//this.facultyLoads = [];
+      })["catch"](function (err) {
+        //this.facultyLoads = [];
+        _this3.isLoading = false;
       });
     }
   },
@@ -32668,6 +32713,16 @@ var render = function () {
                     "table",
                     { staticClass: "table-courses" },
                     [
+                      _c("b-loading", {
+                        model: {
+                          value: _vm.isLoading,
+                          callback: function ($$v) {
+                            _vm.isLoading = $$v
+                          },
+                          expression: "isLoading",
+                        },
+                      }),
+                      _vm._v(" "),
                       _vm._m(0),
                       _vm._v(" "),
                       _vm._l(_vm.facultyLoads, function (item, ix) {
@@ -32712,6 +32767,28 @@ var render = function () {
                           ]),
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(item.room))]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _c("b-button", {
+                                staticClass: "is-small is-outlined",
+                                attrs: {
+                                  type: "is-danger",
+                                  "icon-left": "delete",
+                                },
+                                on: {
+                                  click: function ($event) {
+                                    return _vm.removeLoad(
+                                      item.faculty_load_id,
+                                      ix
+                                    )
+                                  },
+                                },
+                              }),
+                            ],
+                            1
+                          ),
                         ])
                       }),
                     ],
@@ -32761,6 +32838,8 @@ var staticRenderFns = [
       _c("th", [_vm._v("Day")]),
       _vm._v(" "),
       _c("th", [_vm._v("Room")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Action")]),
     ])
   },
 ]
@@ -33079,59 +33158,6 @@ var render = function () {
                                         on: {
                                           click: function ($event) {
                                             return _vm.facultyLoad(
-                                              props.row.user_id
-                                            )
-                                          },
-                                        },
-                                      }),
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "b-tooltip",
-                                    {
-                                      attrs: {
-                                        label: "Edit",
-                                        type: "is-warning",
-                                      },
-                                    },
-                                    [
-                                      _c("b-button", {
-                                        staticClass:
-                                          "button is-small is-warning mr-1",
-                                        attrs: {
-                                          tag: "a",
-                                          "icon-right": "pencil",
-                                        },
-                                        on: {
-                                          click: function ($event) {
-                                            return _vm.getData(
-                                              props.row.user_id
-                                            )
-                                          },
-                                        },
-                                      }),
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "b-tooltip",
-                                    {
-                                      attrs: {
-                                        label: "Delete",
-                                        type: "is-danger",
-                                      },
-                                    },
-                                    [
-                                      _c("b-button", {
-                                        staticClass:
-                                          "button is-small is-danger mr-1",
-                                        attrs: { "icon-right": "delete" },
-                                        on: {
-                                          click: function ($event) {
-                                            return _vm.confirmDelete(
                                               props.row.user_id
                                             )
                                           },
@@ -36131,7 +36157,7 @@ var render = function () {
               attrs: { "icon-left": "calendar-arrow-right" },
               on: { click: _vm.openModal },
             },
-            [_vm._v("Schedule")]
+            [_vm._v("New Schedule")]
           ),
         ],
         1

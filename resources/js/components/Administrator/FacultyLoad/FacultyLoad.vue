@@ -30,6 +30,7 @@
                                         @browseSchedule="emitBrowseSchedule"></modal-browse-schedules>
                                 </div>
                                 <table class="table-courses">
+                                    <b-loading v-model="isLoading"></b-loading>
                                     <tr>
                                         <th>ID</th>
                                         <th>Code</th>
@@ -38,6 +39,7 @@
                                         <th>Schedule</th>
                                         <th>Day</th>
                                         <th>Room</th>
+                                        <th>Action</th>
                                     </tr>
 
                                     <tr v-for="(item, ix) in facultyLoads" :key="ix">
@@ -56,6 +58,11 @@
                                             <span v-if="item.sun">SUN</span>
                                         </td>
                                         <td>{{ item.room }}</td>
+                                        <td>
+                                            <b-button type="is-danger" 
+                                            @click="removeLoad(item.faculty_load_id, ix)"
+                                            icon-left="delete" class="is-small is-outlined"></b-button>
+                                        </td>
 
                                     </tr>
                                 </table>
@@ -91,6 +98,8 @@ export default{
             acadYear: null,
 
             facultyLoads: [],
+
+            isLoading: false,
         }
 
     },
@@ -110,6 +119,7 @@ export default{
                 console.log('res data', res.data)
                 res.data.forEach(el => {
                     this.facultyLoads.push({
+                        faculty_load_id: el.faculty_load_id,
                         academic_year_id: this.acadYear,
                         schedule_id: el.schedule_id,
                         course_id: el.schedule.course_id,
@@ -137,8 +147,31 @@ export default{
         },
 
 
-        removeRow(ix){
-            this.facultyLoads.splice(ix, 1);
+        removeLoad(id, ix){
+            this.$buefy.dialog.confirm({
+                title: 'Delete?',
+                message: 'Are you sure you want to remove this load?',
+                type: 'is-danger',
+                onConfirm: ()=>{
+
+                    if(id > 0){
+                        axios.delete('/faculty-load-delete/' + id).then(res=>{
+                            if(res.data.status === 'deleted'){
+                                this.$buefy.dialog.alert({
+                                    title: 'Deleted.',
+                                    message: 'Deleted successfully.',
+                                    type: 'is-info'
+                                });
+                                this.loadFacultyLoads();
+                            };
+                        })
+                    }else{
+                        this.facultyLoads.splice(ix, 1);
+                    }
+
+                }
+            })
+
         },
 
         emitBrowseSchedule(row){
@@ -155,6 +188,7 @@ export default{
 
             if(!flag){
                 this.facultyLoads.push({
+                    faculty_load_id: 0,
                     academic_year_id: this.acadYear,
                     schedule_id: row.schedule_id,
                     course_id: row.course_id,
@@ -173,10 +207,17 @@ export default{
                     sat: row.sat,
                     sun: row.sun
                 })
+            }else{
+                this.$buefy.dialog.alert({
+                    title: 'Existed!',
+                    message: 'Schedule already added.',
+                    type: 'is-info',
+                })
             }
         },
 
         submit(){
+            this.isLoading = true
             let facultyLoad = {
                 user_id: this.user.user_id,
                 loads: this.facultyLoads
@@ -184,6 +225,7 @@ export default{
 
             axios.post('/faculty-load-store', facultyLoad).then(res=>{
                 console.log(res.data)
+                this.isLoading = false
                 if(res.data.status === 'saved'){
                     this.$buefy.dialog.alert({
                         title: 'SAVED.',
@@ -201,6 +243,7 @@ export default{
                 //this.facultyLoads = [];
             }).catch(err=>{
                 //this.facultyLoads = [];
+                this.isLoading = false
             })
         },
     },

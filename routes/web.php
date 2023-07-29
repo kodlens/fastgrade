@@ -86,7 +86,9 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::get('/get-individual-loads/{id}/{acadyearId}', [App\Http\Controllers\Administrator\FacultyLoadController::class, 'getIndividualLoads']);
     Route::get('/get-modal-schedules', [App\Http\Controllers\Administrator\FacultyLoadController::class, 'getModalSchedules']);
     Route::post('/faculty-load-store', [App\Http\Controllers\Administrator\FacultyLoadController::class, 'store']);
+    Route::delete('faculty-load-delete/{id}', [App\Http\Controllers\Administrator\FacultyLoadController::class, 'destroy']);
 
+    
     
     Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
     Route::get('/get-users', [App\Http\Controllers\Administrator\UserController::class, 'getUsers']);
@@ -109,4 +111,10 @@ Route::get('/applogout', function(Request $req){
     \Auth::logout();
     $req->session()->invalidate();
     $req->session()->regenerateToken();
+});
+
+
+
+Route::get('/test', function(){
+    return 'hi i am test';
 });

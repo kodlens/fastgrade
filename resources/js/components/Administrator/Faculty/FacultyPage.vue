@@ -83,12 +83,12 @@
                                             @click="facultyLoad(props.row.user_id)">
                                         </b-button>
                                     </b-tooltip>
-                                    <b-tooltip label="Edit" type="is-warning">
+                                    <!-- <b-tooltip label="Edit" type="is-warning">
                                         <b-button class="button is-small is-warning mr-1" tag="a" icon-right="pencil" @click="getData(props.row.user_id)"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
                                         <b-button class="button is-small is-danger mr-1" icon-right="delete" @click="confirmDelete(props.row.user_id)"></b-button>
-                                    </b-tooltip>
+                                    </b-tooltip> -->
                                 </div>
                             </b-table-column>
                         </b-table>

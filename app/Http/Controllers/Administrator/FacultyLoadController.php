@@ -64,20 +64,38 @@ class FacultyLoadController extends Controller
             'user_id' => ['required'],
         ]);
 
-
-        
         $data = [];
         foreach($req->loads as $load){
-            array_push($data, [
-                'academic_year_id' => $load['academic_year_id'],
-                'user_id' => $req->user_id,
-                'schedule_id' => $load['schedule_id']
-            ]);
+
+            FacultyLoad::updateOrCreate(
+                [
+                    'faculty_load_id' => $load['faculty_load_id']
+                ],
+                [
+                    'academic_year_id' => $load['academic_year_id'],
+                    'user_id' => $req->user_id,
+                    'schedule_id' => $load['schedule_id']
+                ]
+                 
+            );
+            // array_push($data, [
+            //     'academic_year_id' => $load['academic_year_id'],
+            //     'user_id' => $req->user_id,
+            //     'schedule_id' => $load['schedule_id']
+            // ]);
         }
-        FacultyLoad::insert($data);
+        //FacultyLoad::insert($data);
 
         return response()->json([
             'status' => 'saved'
+        ], 200);
+    }
+
+
+    public function destroy($id){
+        FacultyLoad::destroy($id);
+        return response()->json([
+            'status' => 'deleted'
         ], 200);
     }
 }
