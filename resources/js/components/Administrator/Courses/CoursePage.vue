@@ -66,12 +66,8 @@
                                 {{ props.row.course_code }}
                             </b-table-column>
 
-                            <b-table-column field="course_desc" label="Description" v-slot="props">
+                            <b-table-column field="name" label="Description" v-slot="props">
                                 {{ props.row.course_desc }}
-                            </b-table-column>
-
-                            <b-table-column field="course_type" label="Type" v-slot="props">
-                                {{ props.row.course_type }}
                             </b-table-column>
 
                             <b-table-column field="course_unit" label="Unit" v-slot="props">
@@ -172,6 +168,9 @@
                         </div>
                     </section>
                     <footer class="modal-card-foot">
+                        <b-button
+                            label="Close"
+                            @click="isModalCreate=false"/>
                         <button
                             :class="btnClass"
                             label="Save"
@@ -376,8 +375,6 @@ export default{
 
             axios.get('/courses/'+data_id).then(res=>{
                 this.fields = res.data;
-               
-                
             });
         },
 

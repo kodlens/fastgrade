@@ -52,18 +52,28 @@
                 <b-navbar-item href="/dashboard">
                     Home
                 </b-navbar-item>
-                <b-navbar-item href="/academic-years">
-                    Academic Years
-                </b-navbar-item>
-                <b-navbar-item href="/courses">
-                    Courses
-                </b-navbar-item>
-                <b-navbar-item href="/schedules">
-                    Schedules
-                </b-navbar-item>
-                <b-navbar-item href="/offices">
-                    Offices
-                </b-navbar-item>
+
+                <b-navbar-dropdown label="Settings">
+                    <b-navbar-item href="/academic-years">
+                        Academic Years
+                    </b-navbar-item>
+                    <b-navbar-item href="/courses">
+                        Courses
+                    </b-navbar-item>
+                    <b-navbar-item href="/schedules">
+                        Schedules
+                    </b-navbar-item>
+                    <b-navbar-item href="/offices">
+                        Offices
+                    </b-navbar-item>
+                </b-navbar-dropdown>
+
+                <b-navbar-dropdown label="Faculty">
+                    <b-navbar-item href="/faculty">
+                        Faculty
+                    </b-navbar-item>
+                </b-navbar-dropdown>
+
                 <b-navbar-item href="/users">
                     Users
                 </b-navbar-item>
