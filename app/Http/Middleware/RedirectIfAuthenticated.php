@@ -27,8 +27,16 @@ class RedirectIfAuthenticated
 
                 $role = Auth::user()->role;
 
-                if($role == 'ADMINISTRATOR' || $role == 'STAFF'){
+                if($role == 'ADMINISTRATOR'){
                     return redirect('/dashboard');
+                }
+
+                if($role == 'FACULTY'){
+                    return redirect('/faculty-dashboard');
+                }
+
+                if($role == 'STUDENT'){
+                    return redirect('/student-dashboard');
                 }
             }
         }
