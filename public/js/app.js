@@ -10371,12 +10371,12 @@ __webpack_require__.r(__webpack_exports__);
           window.location = '/dashboard';
         }
 
-        if (res.data.role === 'LIASON') {
-          window.location = '/liason-home';
+        if (res.data.role === 'FACULTY') {
+          window.location = '/faculty-dashboard';
         }
 
-        if (res.data.role === 'STAFF') {
-          window.location = '/staff-home';
+        if (res.data.role === 'STUDENT') {
+          window.location = '/student-dashboard';
         }
       })["catch"](function (err) {
         _this.btnClass['is-loading'] = false;

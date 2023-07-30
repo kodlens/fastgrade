@@ -98,6 +98,16 @@ Route::middleware(['auth', 'admin'])->group(function() {
 });
 
 
+
+
+Route::middleware(['auth', 'faculty'])->group(function() {
+
+    Route::get('/faculty-dashboard', [App\Http\Controllers\Faculty\FacultyDashboardController::class, 'index']);
+
+
+});
+
+
 /*     ADMINSITRATOR          */
 
 Route::get('/session', function(){
