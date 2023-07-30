@@ -36,10 +36,10 @@ class FacultyProfileController extends Controller
         $data->office_id = $req->office_id;
         $data->contact_no = $req->contact_no;
 
-        $data->province = $req->province['provCode'];
-        $data->city = $req->city['citymunCode'];
-        $data->barangay = $req->barangay['brgyCode'];
-        $data->street = strtoupper($req['street']);
+        $data->province = $req->province;
+        $data->city = $req->city;
+        $data->barangay = $req->barangay;
+        $data->street = strtoupper($req->street);
 
         $data->save();
 

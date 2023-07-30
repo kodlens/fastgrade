@@ -125,6 +125,99 @@ class UserSeeder extends Seeder
             ],
 
 
+            [
+                'username' => 'nimchie',
+                'lname' => 'HIBAYA',
+                'fname' => 'NIMCHIE',
+                'mname' => '',
+                'suffix' => '',
+                'sex' => 'FEMALE',
+                'civil_status' => 'SINGLE',
+                'office_id' => 0,
+                'contact_no' => '09655138165',
+                'role' => 'STUDENT',
+                'password' => Hash::make('a')
+            ],
+            [
+                'username' => 'itching',
+                'lname' => 'MAGLANGIT',
+                'fname' => 'RICHIE',
+                'mname' => '',
+                'suffix' => '',
+                'sex' => 'MALE',
+                'civil_status' => 'SINGLE',
+                'office_id' => 0,
+                'contact_no' => '09655138165',
+                'role' => 'STUDENT',
+                'password' => Hash::make('a')
+            ],
+            [
+                'username' => 'haziel',
+                'lname' => 'ALGADIPE',
+                'fname' => 'HAZIEL',
+                'mname' => '',
+                'suffix' => '',
+                'sex' => 'FEMALE',
+                'civil_status' => 'SINGLE',
+                'office_id' => 0,
+                'contact_no' => '09655138165',
+                'role' => 'STUDENT',
+                'password' => Hash::make('a')
+            ],
+            [
+                'username' => 'jesa',
+                'lname' => 'BECHAYDA',
+                'fname' => 'JESA',
+                'mname' => '',
+                'suffix' => '',
+                'sex' => 'FEMALE',
+                'civil_status' => 'SINGLE',
+                'office_id' => 0,
+                'contact_no' => '09655138165',
+                'role' => 'STUDENT',
+                'password' => Hash::make('a')
+            ],
+            [
+                'username' => 'marjhon',
+                'lname' => 'PUCOT',
+                'fname' => 'MARJHON',
+                'mname' => '',
+                'suffix' => '',
+                'sex' => 'MALE',
+                'civil_status' => 'SINGLE',
+                'office_id' => 0,
+                'contact_no' => '09655138165',
+                'role' => 'STUDENT',
+                'password' => Hash::make('a')
+            ],
+            [
+                'username' => 'roger',
+                'lname' => 'LACAPAG',
+                'fname' => 'ROGER',
+                'mname' => '',
+                'suffix' => '',
+                'sex' => 'MALE',
+                'civil_status' => 'SINGLE',
+                'office_id' => 0,
+                'contact_no' => '09655138165',
+                'role' => 'STUDENT',
+                'password' => Hash::make('a')
+            ],
+            [
+                'username' => 'charles',
+                'lname' => 'VARGAS',
+                'fname' => 'charles',
+                'mname' => '',
+                'suffix' => '',
+                'sex' => 'MALE',
+                'civil_status' => 'SINGLE',
+                'office_id' => 0,
+                'contact_no' => '09655138165',
+                'role' => 'STUDENT',
+                'password' => Hash::make('a')
+            ],
+
+
         ];
 
         \App\Models\User::insertOrIgnore($data);

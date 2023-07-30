@@ -107,6 +107,9 @@ Route::middleware(['auth', 'faculty'])->group(function() {
     Route::resource('/faculty-profile', App\Http\Controllers\Faculty\FacultyProfileController::class);
     Route::get('/faculty-profile-info', [App\Http\Controllers\Faculty\FacultyProfileController::class, 'facultyProfileInfo']);
 
+    Route::resource('/faculty-faculty-load', App\Http\Controllers\Faculty\FacultyFacultyLoadController::class);
+    Route::get('/get-faculty-faculty-loads', [App\Http\Controllers\Faculty\FacultyFacultyLoadController::class, 'getFacultyLoads']);
+
     
 });
 

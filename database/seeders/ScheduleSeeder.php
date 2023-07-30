@@ -67,7 +67,7 @@ class ScheduleSeeder extends Seeder
 
 
             [
-                'academic_year_id' => 4,
+                'academic_year_id' => 1,
                 'program_id' => 1,
                 'course_id' => 1,
                 'room_id' => 1,
@@ -83,7 +83,7 @@ class ScheduleSeeder extends Seeder
                 'sun' => 0,
             ], 
             [
-                'academic_year_id' => 4,
+                'academic_year_id' => 1,
                 'program_id' => 1,
                 'course_id' => 1,
                 'room_id' => 3,
@@ -99,7 +99,7 @@ class ScheduleSeeder extends Seeder
                 'sun' => 0,
             ], 
             [
-                'academic_year_id' => 4,
+                'academic_year_id' => 1,
                 'program_id' => 1,
                 'course_id' => 5,
                 'room_id' => 3,

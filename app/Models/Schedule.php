@@ -37,7 +37,7 @@ class Schedule extends Model
     }
 
     public function faculty(){
-        return $this->hasOne(Faculty::class, 'faculty_id', 'faculty_id');
+        return $this->belongsTo(FacultyLoad::class, 'schedule_id', 'schedule_id');
     }
 
     public function office(){

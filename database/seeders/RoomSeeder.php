@@ -36,6 +36,62 @@ class RoomSeeder extends Seeder
                 'max' => 40,
             ],
 
+            [
+                'room' => 'MB 303',
+                'room_desc' => 'LECTURE ROOM',
+                'max' => 40,
+            ],
+            [
+                'room' => 'MB 209',
+                'room_desc' => 'LECTURE ROOM',
+                'max' => 40,
+            ],
+            [
+                'room' => 'MB 210',
+                'room_desc' => 'LECTURE ROOM',
+                'max' => 40,
+            ],
+            [
+                'room' => 'MB 304',
+                'room_desc' => 'LECTURE ROOM',
+                'max' => 40,
+            ],
+            [
+                'room' => 'MB 301',
+                'room_desc' => 'LECTURE ROOM',
+                'max' => 40,
+            ],
+            [
+                'room' => 'MB 104',
+                'room_desc' => 'LECTURE ROOM',
+                'max' => 40,
+            ],
+            [
+                'room' => 'MB 204',
+                'room_desc' => 'LECTURE ROOM',
+                'max' => 40,
+            ],
+            [
+                'room' => 'MB 105',
+                'room_desc' => 'LECTURE ROOM',
+                'max' => 40,
+            ],
+            [
+                'room' => 'MB 211',
+                'room_desc' => 'LECTURE ROOM',
+                'max' => 40,
+            ],
+            [
+                'room' => 'MB 214',
+                'room_desc' => 'LECTURE ROOM',
+                'max' => 40,
+            ],
+            [
+                'room' => 'MB 206',
+                'room_desc' => 'LECTURE ROOM',
+                'max' => 40,
+            ],
+
 
         ];
 

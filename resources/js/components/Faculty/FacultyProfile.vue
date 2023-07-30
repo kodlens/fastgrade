@@ -93,7 +93,7 @@
                 <b-field label="Province" label-position="on-border" expanded
                             :type="this.errors.province ? 'is-danger':''"
                             :message="this.errors.province ? this.errors.province[0] : ''">
-                    <b-select v-model="faculty.province.provCode" @input="loadCity" expanded>
+                    <b-select v-model="faculty.province" @input="loadCity" expanded>
                         <option v-for="(item, index) in provinces" :key="index" :value="item.provCode">{{ item.provDesc }}</option>
                     </b-select>
                 </b-field>
@@ -103,7 +103,7 @@
                 <b-field label="City" label-position="on-border" expanded
                             :type="this.errors.city ? 'is-danger':''"
                             :message="this.errors.city ? this.errors.city[0] : ''">
-                    <b-select v-model="faculty.city.citymunCode" @input="loadBarangay" expanded>
+                    <b-select v-model="faculty.city" @input="loadBarangay" expanded>
                         <option v-for="(item, index) in cities" :key="index" :value="item.citymunCode">{{ item.citymunDesc }}</option>
                     </b-select>
                 </b-field>
@@ -115,7 +115,7 @@
                 <b-field label="Barangay" label-position="on-border" expanded
                             :type="this.errors.barangay ? 'is-danger':''"
                             :message="this.errors.barangay ? this.errors.barangay[0] : ''">
-                    <b-select v-model="faculty.barangay.brgyCode" expanded>
+                    <b-select v-model="faculty.barangay" expanded>
                         <option v-for="(item, index) in barangays" :key="index" :value="item.brgyCode">{{ item.brgyDesc }}</option>
                     </b-select>
                 </b-field>
@@ -146,7 +146,19 @@
 export default{
     data(){
         return{
-            faculty: {},
+            faculty: {
+                user_id: 0,
+
+                province: {
+                    provCode: null
+                },
+                city: {
+                    citymunCode: null,
+                },
+                barangay: {
+                    brgyCode: null
+                }
+            },
             errors: {},
 
             offices: [],
@@ -158,19 +170,32 @@ export default{
 
     methods: {
         loadAsyncData(){
+            let tempData = null;
             //this.faculty = JSON.parse(this.propFaculty)
             axios.get('/faculty-profile-info').then(res=>{
-                this.faculty = res.data;
-                let tempData = res.data;
+                tempData = res.data;
+                this.faculty.user_id = tempData.user_id
+                this.faculty.lname = tempData.lname
+                this.faculty.fname = tempData.fname
+                this.faculty.mname = tempData.mname
+                this.faculty.suffix = tempData.suffix
+                this.faculty.sex = tempData.sex
+                this.faculty.civil_status = tempData.civil_status
+                this.faculty.contact_no = tempData.contact_no
+                this.faculty.office_id = tempData.office_id
+                this.faculty.street = tempData.street
+                this.faculty.province = tempData.province ? tempData.province.provCode: ''
+                
                 //load city first
                 //console.log(this.faculty.res_province)
-                axios.get('/load-cities?prov=' + this.faculty.province.provCode).then(res=>{
+                axios.get('/load-cities?prov=' + this.faculty.province).then(res=>{
                     //load barangay
                     this.cities = res.data;
-                    axios.get('/load-barangays?prov=' + this.faculty.province.provCode + '&city_code='+this.faculty.city.citymunCode).then(res=>{
-                        this.barangays = res.data;
-                        this.faculty = tempData
+                    this.faculty.city = tempData.city ? tempData.city.citymunCode : '';
 
+                    axios.get('/load-barangays?prov=' +this.faculty.province + '&city_code='+this.faculty.city).then(res=>{
+                        this.barangays = res.data;
+                        this.faculty.barangay = tempData.barangay.brgyCode
                     });
                 });
             });
@@ -191,13 +216,13 @@ export default{
         },
 
         loadCity: function(){
-            axios.get('/load-cities?prov=' + this.faculty.province.provCode).then(res=>{
+            axios.get('/load-cities?prov=' + this.faculty.province).then(res=>{
                 this.cities = res.data;
             })
         },
 
         loadBarangay: function(){
-            axios.get('/load-barangays?prov=' + this.faculty.province.provCode + '&city_code='+this.faculty.city.citymunCode).then(res=>{
+            axios.get('/load-barangays?prov=' + this.faculty.province + '&city_code='+this.faculty.city).then(res=>{
                 this.barangays = res.data;
             })
         },

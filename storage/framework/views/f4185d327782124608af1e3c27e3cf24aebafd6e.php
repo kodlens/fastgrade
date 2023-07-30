@@ -49,7 +49,7 @@
                     Home
                 </b-navbar-item>
 
-                <b-navbar-item href="/faculy-load">
+                <b-navbar-item href="/faculty-faculty-load">
                     Faculty Load
                 </b-navbar-item>
 
