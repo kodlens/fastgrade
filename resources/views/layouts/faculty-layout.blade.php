@@ -55,6 +55,10 @@
                     Faculty Load
                 </b-navbar-item>
 
+                <b-navbar-item href="/faculty-profile">
+                    {{ strtoupper(Auth::user()->fname) }}
+                </b-navbar-item>
+
                 <b-navbar-item tag="div">
                     <div class="buttons">
                         <b-button 

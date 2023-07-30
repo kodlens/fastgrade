@@ -68,6 +68,19 @@ class UserSeeder extends Seeder
                 'civil_status' => 'SINGLE',
                 'office_id' => 2,
                 'contact_no' => '09655138165',
+                'role' => 'STUDENT',
+                'password' => Hash::make('a')
+            ],
+            [
+                'username' => 'leda',
+                'lname' => 'ABELLA',
+                'fname' => 'LEDA GRACE',
+                'mname' => '',
+                'suffix' => '',
+                'sex' => 'FEMALE',
+                'civil_status' => 'SINGLE',
+                'office_id' => 2,
+                'contact_no' => '09655138165',
                 'role' => 'FACULTY',
                 'password' => Hash::make('a')
             ],

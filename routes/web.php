@@ -55,6 +55,7 @@ Route::get('/load-cities', [App\Http\Controllers\AddressController::class, 'load
 Route::get('/load-barangays', [App\Http\Controllers\AddressController::class, 'loadBarangays']);
 
 Route::get('/load-acadyears', [App\Http\Controllers\AddressController::class, 'loadAcadYears']);
+Route::get('/load-offices', [App\Http\Controllers\OpenController::class, 'loadOffices']);
 
 /*     ADMINSITRATOR          */
 
@@ -103,8 +104,10 @@ Route::middleware(['auth', 'admin'])->group(function() {
 Route::middleware(['auth', 'faculty'])->group(function() {
 
     Route::get('/faculty-dashboard', [App\Http\Controllers\Faculty\FacultyDashboardController::class, 'index']);
+    Route::resource('/faculty-profile', App\Http\Controllers\Faculty\FacultyProfileController::class);
+    Route::get('/faculty-profile-info', [App\Http\Controllers\Faculty\FacultyProfileController::class, 'facultyProfileInfo']);
 
-
+    
 });
 
 
