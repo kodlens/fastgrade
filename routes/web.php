@@ -112,7 +112,8 @@ Route::middleware(['auth', 'faculty'])->group(function() {
 
     Route::get('/faculty-student-list/{sid}/{fid}', [App\Http\Controllers\Faculty\FacultyStudentListController::class, 'index']);
     Route::get('/get-student-lists', [App\Http\Controllers\Faculty\FacultyStudentListController::class, 'getStudentLists']);
-
+    
+    Route::post('/faculty-student-list-store', [App\Http\Controllers\Faculty\FacultyStudentListController::class, 'addStudent']);
 
 });
 

@@ -10715,12 +10715,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['propScheduleId', 'propFacultyId'],
   data: function data() {
@@ -10744,7 +10738,24 @@ __webpack_require__.r(__webpack_exports__);
       window.location = '/faculty-student-list/' + id + '/' + fid;
     },
     emitBrowseStudents: function emitBrowseStudents(row) {
+      var _this2 = this;
+
       console.log(row);
+      var fields = {
+        schedule_id: this.propScheduleId,
+        faculty_id: this.propFacultyId,
+        student_id: row.user_id
+      };
+      axios.post('/faculty-student-list-store', fields).then(function (res) {
+        _this2.$buefy.dialog.alert({
+          title: 'Added.',
+          message: 'Successfully added.',
+          type: 'is-info',
+          onConfirm: function onConfirm() {
+            _this2.loadStudentList();
+          }
+        });
+      });
     }
   },
   mounted: function mounted() {
@@ -37496,39 +37507,19 @@ var render = function () {
             _vm._v(" "),
             _vm._l(_vm.data, function (item, idx) {
               return _c("tr", { key: "i" + idx }, [
-                _c("td", [_vm._v(_vm._s(item.schedule_id))]),
+                _c("td", [_vm._v(_vm._s(item.student.user_id))]),
                 _vm._v(" "),
                 _c("td", [
                   _vm._v(
-                    _vm._s(item.schedule.course.course_code) +
+                    _vm._s(item.student.lname) +
+                      ", " +
+                      _vm._s(item.student.lname) +
                       " " +
-                      _vm._s(item.schedule.course.course_desc)
+                      _vm._s(item.student.mname)
                   ),
                 ]),
                 _vm._v(" "),
-                _c("td", [
-                  _vm._v(
-                    _vm._s(_vm._f("formatTime")(item.schedule.start_time)) +
-                      " - " +
-                      _vm._s(_vm._f("formatTime")(item.schedule.end_time))
-                  ),
-                ]),
-                _vm._v(" "),
-                _c(
-                  "td",
-                  [
-                    _c("b-button", {
-                      staticClass: "is-small is-outlined",
-                      attrs: { type: "is-info", "icon-left": "account" },
-                      on: {
-                        click: function ($event) {
-                          return _vm.studentList(item.schedule_id, item.user_id)
-                        },
-                      },
-                    }),
-                  ],
-                  1
-                ),
+                _c("td", [_vm._v(_vm._s(item.student.program.program_code))]),
               ])
             }),
           ],

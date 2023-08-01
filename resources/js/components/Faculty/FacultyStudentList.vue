@@ -27,15 +27,9 @@
                     </tr>
 
                     <tr v-for="(item, idx) in data" :key="`i${idx}`">
-                        <td>{{ item.schedule_id }}</td>
-                        <td>{{ item.schedule.course.course_code }} {{ item.schedule.course.course_desc }}</td>
-                        <td>{{ item.schedule.start_time | formatTime }} - {{ item.schedule.end_time | formatTime }}</td>
-                        
-                        <td>
-                            <b-button type="is-info" 
-                                @click="studentList(item.schedule_id, item.user_id)"
-                                icon-left="account" class="is-small is-outlined"></b-button>
-                        </td>
+                        <td>{{ item.student.user_id }}</td>
+                        <td>{{ item.student.lname }}, {{ item.student.lname }} {{ item.student.mname }}</td>
+                        <td>{{ item.student.program.program_code }}</td>
                     </tr>
                 </table>
 
@@ -87,6 +81,23 @@ export default{
 
         emitBrowseStudents(row){
             console.log(row)
+
+            let fields = {
+                schedule_id: this.propScheduleId,
+                faculty_id: this.propFacultyId,
+                student_id: row.user_id
+            };
+             
+            axios.post('/faculty-student-list-store', fields).then(res=>{
+                this.$buefy.dialog.alert({
+                    title: 'Added.',
+                    message: 'Successfully added.',
+                    type: 'is-info',
+                    onConfirm: ()=> {
+                        this.loadStudentList()
+                    }
+                })
+            })
         }
     },
     mounted(){

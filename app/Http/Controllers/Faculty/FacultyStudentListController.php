@@ -27,7 +27,7 @@ class FacultyStudentListController extends Controller
 
         $ay = AcademicYear::where('active', 1)->first();
 
-        return StudentList::with(['academicYear', 'schedule', 'faculty', 'student',])
+        return StudentList::with(['academicYear', 'schedule', 'faculty', 'student', 'student.program'])
             ->where('academic_year_id', $ay->academic_year_id)
             ->where('faculty_id', $fId)
             ->where('schedule_id', $sId)
@@ -36,5 +36,26 @@ class FacultyStudentListController extends Controller
                     ->orderBy('lname',  'asc');
             })
             ->get();
+    }
+
+    public function addStudent(Request $req){
+        $ay = AcademicYear::where('active', 1)->first();
+
+        StudentList::updateOrCreate([
+            'academic_year_id' => $ay->academic_year_id,
+            'schedule_id' => $req->schedule_id,
+            'student_id' => $req->student_id,
+        ],
+        [
+            'academic_year_id' => $ay->academic_year_id,
+            'schedule_id' => $req->schedule_id,
+            'faculty_id' => $req->faculty_id,
+            'student_id' => $req->student_id,
+        ]);
+       
+
+        return response()->json([
+            'status' => 'saved'
+        ], 200);
     }
 }

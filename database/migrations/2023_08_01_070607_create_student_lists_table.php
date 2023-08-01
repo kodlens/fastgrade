@@ -18,7 +18,7 @@ class CreateStudentListsTable extends Migration
             $table->id('student_list_id');
 
             $table->unsignedBigInteger('academic_year_id');
-            $table->foreign('academic_year_id')->references('academic_year_id')->on('enrolments')
+            $table->foreign('academic_year_id')->references('academic_year_id')->on('academic_years')
                     ->onDelete('cascade')->onUpdate('cascade');
 
             $table->unsignedBigInteger('schedule_id');
