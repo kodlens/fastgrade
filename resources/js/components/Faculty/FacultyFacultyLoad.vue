@@ -11,6 +11,11 @@
                         <option v-for="(item, ix) in acadYears" :key="ix"
                             :value="item.academic_year_id">{{ item.academic_year_code }} - {{ item.academic_year_desc }}</option>
                     </b-select>
+
+                    <p class="control">
+                        <b-button @click="loadFacultyLoads"
+                            label="" icon-left="magnify" type="is-info"></b-button>
+                    </p>
                 </b-field>
             </div>
         </div>
@@ -43,7 +48,7 @@
                         <td>{{ item.schedule.room.room }}</td>
                         <td>
                             <b-button type="is-info" 
-                                @click="studentList(item.schedule_id)"
+                                @click="studentList(item.schedule_id, item.user_id)"
                                 icon-left="account" class="is-small is-outlined"></b-button>
                         </td>
                     </tr>
@@ -82,8 +87,9 @@ export default{
             })
         },
 
-        studentList(id){
-            window.location = '/faculty-show-student-list/' + id;
+        studentList(id, fid){
+
+            window.location = '/faculty-student-list/' + id + '/' + fid;
         }
     },
     mounted(){

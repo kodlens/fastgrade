@@ -29,7 +29,8 @@ class User extends Authenticatable
         'sex', 
         'civil_status',
         'office_id', 
-        'contact_no', 
+        'contact_no',
+        'program_id',
         'role',
         'password',
         'province',
@@ -68,6 +69,9 @@ class User extends Authenticatable
 
     }
 
+    public function program(){
+        return $this->hasOne(Program::class, 'program_id', 'program_id');
+    }
 
 
     public function province(){

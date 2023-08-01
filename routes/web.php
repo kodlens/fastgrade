@@ -110,9 +110,18 @@ Route::middleware(['auth', 'faculty'])->group(function() {
     Route::resource('/faculty-faculty-load', App\Http\Controllers\Faculty\FacultyFacultyLoadController::class);
     Route::get('/get-faculty-faculty-loads', [App\Http\Controllers\Faculty\FacultyFacultyLoadController::class, 'getFacultyLoads']);
 
-    
+    Route::get('/faculty-student-list/{sid}/{fid}', [App\Http\Controllers\Faculty\FacultyStudentListController::class, 'index']);
+    Route::get('/get-student-lists', [App\Http\Controllers\Faculty\FacultyStudentListController::class, 'getStudentLists']);
+
+
 });
 
+
+Route::middleware(['auth'])->group(function() {
+
+    //Get student list in modal
+    Route::get('/get-modal-student-lists', [App\Http\Controllers\Modal\ModalStudentListController::class, 'getModalStudentList']);
+});
 
 /*     ADMINSITRATOR          */
 

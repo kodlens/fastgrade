@@ -21,7 +21,9 @@ class DatabaseSeeder extends Seeder
             AcademicYearSeeder::class,
             CourseSeeder::class,
             RoomSeeder::class,
-            ScheduleSeeder::class
+            ScheduleSeeder::class,
+            FacultyLoadSeeder::class,
+            ProgramSeeder::class
         ]);
     }
 }

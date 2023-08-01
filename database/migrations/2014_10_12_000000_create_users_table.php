@@ -28,6 +28,8 @@ class CreateUsersTable extends Migration
             $table->string('contact_no')->nullable();
             $table->date('birthdate')->nullable();
 
+            $table->integer('program_id')->default(0);
+
             $table->string('role')->nullable();
             $table->tinyInteger('is_activated')->default(0);
 

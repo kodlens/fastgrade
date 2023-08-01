@@ -13,7 +13,7 @@ class Program extends Model
     protected $table = 'programs';
 
     protected $fillable = [
-        'program'
+        'program_code' ,'program_desc', 'active'
     ];
 
 }

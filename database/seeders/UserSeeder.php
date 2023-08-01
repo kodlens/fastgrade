@@ -26,6 +26,7 @@ class UserSeeder extends Seeder
                 'civil_status' => 'SINGLE',
                 'office_id' => 0,
                 'contact_no' => '09655138165',
+                'program_id' => 0,
                 'role' => 'ADMINISTRATOR',
                 'password' => Hash::make('a')
             ],
@@ -40,6 +41,7 @@ class UserSeeder extends Seeder
                 'civil_status' => 'MARRIED',
                 'office_id' => 1,
                 'contact_no' => '09655138165',
+                'program_id' => 0,
                 'role' => 'DEAN',
                 'password' => Hash::make('a')
             ],
@@ -54,6 +56,7 @@ class UserSeeder extends Seeder
                 'civil_status' => 'MARRIED',
                 'office_id' => 2,
                 'contact_no' => '09655138165',
+                'program_id' => 0,
                 'role' => 'DEAN',
                 'password' => Hash::make('a')
             ],
@@ -68,6 +71,7 @@ class UserSeeder extends Seeder
                 'civil_status' => 'SINGLE',
                 'office_id' => 2,
                 'contact_no' => '09655138165',
+                'program_id' => 1,
                 'role' => 'STUDENT',
                 'password' => Hash::make('a')
             ],
@@ -81,6 +85,7 @@ class UserSeeder extends Seeder
                 'civil_status' => 'SINGLE',
                 'office_id' => 2,
                 'contact_no' => '09655138165',
+                'program_id' => 0,
                 'role' => 'FACULTY',
                 'password' => Hash::make('a')
             ],
@@ -94,6 +99,7 @@ class UserSeeder extends Seeder
                 'civil_status' => 'SINGLE',
                 'office_id' => 2,
                 'contact_no' => '09655138165',
+                'program_id' => 0,
                 'role' => 'FACULTY',
                 'password' => Hash::make('a')
             ],
@@ -107,6 +113,7 @@ class UserSeeder extends Seeder
                 'civil_status' => 'SINGLE',
                 'office_id' => 2,
                 'contact_no' => '09655138165',
+                'program_id' => 0,
                 'role' => 'FACULTY',
                 'password' => Hash::make('a')
             ],
@@ -120,6 +127,7 @@ class UserSeeder extends Seeder
                 'civil_status' => 'SINGLE',
                 'office_id' => 2,
                 'contact_no' => '09655138165',
+                'program_id' => 0,
                 'role' => 'FACULTY',
                 'password' => Hash::make('a')
             ],
@@ -135,6 +143,7 @@ class UserSeeder extends Seeder
                 'civil_status' => 'SINGLE',
                 'office_id' => 0,
                 'contact_no' => '09655138165',
+                'program_id' => 1,
                 'role' => 'STUDENT',
                 'password' => Hash::make('a')
             ],
@@ -148,6 +157,7 @@ class UserSeeder extends Seeder
                 'civil_status' => 'SINGLE',
                 'office_id' => 0,
                 'contact_no' => '09655138165',
+                'program_id' => 2,
                 'role' => 'STUDENT',
                 'password' => Hash::make('a')
             ],
@@ -161,6 +171,7 @@ class UserSeeder extends Seeder
                 'civil_status' => 'SINGLE',
                 'office_id' => 0,
                 'contact_no' => '09655138165',
+                'program_id' => 1,
                 'role' => 'STUDENT',
                 'password' => Hash::make('a')
             ],
@@ -174,6 +185,7 @@ class UserSeeder extends Seeder
                 'civil_status' => 'SINGLE',
                 'office_id' => 0,
                 'contact_no' => '09655138165',
+                'program_id' => 1,
                 'role' => 'STUDENT',
                 'password' => Hash::make('a')
             ],
@@ -187,6 +199,7 @@ class UserSeeder extends Seeder
                 'civil_status' => 'SINGLE',
                 'office_id' => 0,
                 'contact_no' => '09655138165',
+                'program_id' => 2,
                 'role' => 'STUDENT',
                 'password' => Hash::make('a')
             ],
@@ -200,6 +213,7 @@ class UserSeeder extends Seeder
                 'civil_status' => 'SINGLE',
                 'office_id' => 0,
                 'contact_no' => '09655138165',
+                'program_id' => 3,
                 'role' => 'STUDENT',
                 'password' => Hash::make('a')
             ],
@@ -213,6 +227,7 @@ class UserSeeder extends Seeder
                 'civil_status' => 'SINGLE',
                 'office_id' => 0,
                 'contact_no' => '09655138165',
+                'program_id' => 4,
                 'role' => 'STUDENT',
                 'password' => Hash::make('a')
             ],
