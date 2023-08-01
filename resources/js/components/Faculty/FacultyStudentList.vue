@@ -24,12 +24,20 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Program & Year</th>
+                        <th>Action</th>
+
                     </tr>
 
                     <tr v-for="(item, idx) in data" :key="`i${idx}`">
                         <td>{{ item.student.user_id }}</td>
                         <td>{{ item.student.lname }}, {{ item.student.lname }} {{ item.student.mname }}</td>
                         <td>{{ item.student.program.program_code }}</td>
+
+                         <td>
+                            <b-button type="is-danger" 
+                                @click="confirmRemoveStudent(item.student_list_id)"
+                                icon-left="delete" class="is-small is-outlined"></b-button>
+                        </td>
                     </tr>
                 </table>
 
@@ -71,6 +79,7 @@ export default{
             ].join('&')
             axios.get(`/get-student-lists?${params}`).then(res=>{
                 this.data = res.data
+                console.log(res.data)
             })
         },
 
@@ -89,14 +98,51 @@ export default{
             };
              
             axios.post('/faculty-student-list-store', fields).then(res=>{
-                this.$buefy.dialog.alert({
-                    title: 'Added.',
-                    message: 'Successfully added.',
-                    type: 'is-info',
-                    onConfirm: ()=> {
-                        this.loadStudentList()
-                    }
-                })
+                if(res.data.status === 'saved'){
+                    this.$buefy.dialog.alert({
+                        title: 'Added.',
+                        message: 'Successfully added.',
+                        type: 'is-info',
+                        onConfirm: ()=> {
+                            this.loadStudentList()
+                        }
+                    })
+                }
+            }).catch(err=>{
+                this.errors = err.response.data.errors
+
+                if(this.errors.exist){
+                    this.$buefy.dialog.alert({
+                        title: 'Exist.',
+                        message: this.errors.exist[0],
+                        type: 'is-danger'
+                    })
+                }
+            })
+        },
+
+
+        confirmRemoveStudent(id){
+            this.$buefy.dialog.confirm({
+                title: 'Remove?',
+                message: 'Are you sure you want to remove this student from the list?',
+                type: 'is-info',
+                onConfirm: () => {
+                    this.removeSubmitStudent(id)
+                }
+            })
+        },
+        removeSubmitStudent(id){
+            axios.delete('/faculty-student-list/' + id).then(res=>{
+                if(res.data.status === 'deleted'){
+                    this.$buefy.dialog.alert({
+                        title: 'Deleted.',
+                        message: 'Data deleted successfully.',
+                        type: 'is-success'
+                    })
+
+                    this.loadStudentList()
+                }
             })
         }
     },

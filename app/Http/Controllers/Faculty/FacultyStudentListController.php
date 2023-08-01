@@ -41,6 +41,31 @@ class FacultyStudentListController extends Controller
     public function addStudent(Request $req){
         $ay = AcademicYear::where('active', 1)->first();
 
+
+        /*===============================================
+            Check if the student already exist in the list
+            of the faculty on a specific academic year
+        ===============================================*/
+        $exist = StudentList::where('academic_year_id', $ay->academic_year_id)
+            ->where('schedule_id', $req->schedule_id)
+            ->where('student_id', $req->student_id)
+            ->exists();
+
+        if($exist){
+            return response()->json([
+                'errors' => [
+                    'exist' => ['Student already exist.']
+                ]
+            ], 422);
+        }
+        /*===============================================
+        ===============================================*/
+
+
+        /*===============================================
+            Save the student in the list using the update
+            or create function to avoid double listing
+        ===============================================*/
         StudentList::updateOrCreate([
             'academic_year_id' => $ay->academic_year_id,
             'schedule_id' => $req->schedule_id,
@@ -52,10 +77,22 @@ class FacultyStudentListController extends Controller
             'faculty_id' => $req->faculty_id,
             'student_id' => $req->student_id,
         ]);
-       
+       /*===============================================
+        ===============================================*/
+        
 
+        //response to the front end
         return response()->json([
             'status' => 'saved'
+        ], 200);
+    }
+
+
+    public function delete($id){
+        StudentList::destroy($id);
+        //response to the front end
+        return response()->json([
+            'status' => 'deleted'
         ], 200);
     }
 }

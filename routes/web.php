@@ -114,7 +114,9 @@ Route::middleware(['auth', 'faculty'])->group(function() {
     Route::get('/get-student-lists', [App\Http\Controllers\Faculty\FacultyStudentListController::class, 'getStudentLists']);
     
     Route::post('/faculty-student-list-store', [App\Http\Controllers\Faculty\FacultyStudentListController::class, 'addStudent']);
+    Route::delete('/faculty-student-list/{listId}', [App\Http\Controllers\Faculty\FacultyStudentListController::class, 'delete']);
 
+    
 });
 
 

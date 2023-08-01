@@ -10715,6 +10715,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['propScheduleId', 'propFacultyId'],
   data: function data() {
@@ -10732,6 +10740,7 @@ __webpack_require__.r(__webpack_exports__);
       var params = ["sid=".concat(this.propScheduleId), "fid=".concat(this.propFacultyId), "name=".concat(this.search.name)].join('&');
       axios.get("/get-student-lists?".concat(params)).then(function (res) {
         _this.data = res.data;
+        console.log(res.data);
       });
     },
     studentList: function studentList(id, fid) {
@@ -10747,14 +10756,53 @@ __webpack_require__.r(__webpack_exports__);
         student_id: row.user_id
       };
       axios.post('/faculty-student-list-store', fields).then(function (res) {
-        _this2.$buefy.dialog.alert({
-          title: 'Added.',
-          message: 'Successfully added.',
-          type: 'is-info',
-          onConfirm: function onConfirm() {
-            _this2.loadStudentList();
-          }
-        });
+        if (res.data.status === 'saved') {
+          _this2.$buefy.dialog.alert({
+            title: 'Added.',
+            message: 'Successfully added.',
+            type: 'is-info',
+            onConfirm: function onConfirm() {
+              _this2.loadStudentList();
+            }
+          });
+        }
+      })["catch"](function (err) {
+        _this2.errors = err.response.data.errors;
+
+        if (_this2.errors.exist) {
+          _this2.$buefy.dialog.alert({
+            title: 'Exist.',
+            message: _this2.errors.exist[0],
+            type: 'is-danger'
+          });
+        }
+      });
+    },
+    confirmRemoveStudent: function confirmRemoveStudent(id) {
+      var _this3 = this;
+
+      this.$buefy.dialog.confirm({
+        title: 'Remove?',
+        message: 'Are you sure you want to remove this student from the list?',
+        type: 'is-info',
+        onConfirm: function onConfirm() {
+          _this3.removeSubmitStudent(id);
+        }
+      });
+    },
+    removeSubmitStudent: function removeSubmitStudent(id) {
+      var _this4 = this;
+
+      axios["delete"]('/faculty-student-list/' + id).then(function (res) {
+        if (res.data.status === 'deleted') {
+          _this4.$buefy.dialog.alert({
+            title: 'Deleted.',
+            message: 'Data deleted successfully.',
+            type: 'is-success'
+          });
+
+          _this4.loadStudentList();
+        }
       });
     }
   },
@@ -37520,6 +37568,22 @@ var render = function () {
                 ]),
                 _vm._v(" "),
                 _c("td", [_vm._v(_vm._s(item.student.program.program_code))]),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  [
+                    _c("b-button", {
+                      staticClass: "is-small is-outlined",
+                      attrs: { type: "is-danger", "icon-left": "delete" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.confirmRemoveStudent(item.student_list_id)
+                        },
+                      },
+                    }),
+                  ],
+                  1
+                ),
               ])
             }),
           ],
@@ -37565,6 +37629,8 @@ var staticRenderFns = [
       _c("th", [_vm._v("Name")]),
       _vm._v(" "),
       _c("th", [_vm._v("Program & Year")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Action")]),
     ])
   },
 ]
