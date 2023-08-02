@@ -13,10 +13,16 @@ class FacultyStudentListController extends Controller
 {
     //
 
-    public function index($sid, $fid){
+    public function index(Request $req){
+
+        $schedule_id = $req->scheduleid;
+        $faculty_id = $req->facultyid;
+        $academic_year_id = $req->academicid;
+
         return view('faculty.faculty-student-list')
-            ->with('sid', $sid)
-            ->with('fid', $fid);
+            ->with('scheduleId', $schedule_id)
+            ->with('facultyId', $faculty_id)
+            ->with('acadYearId', $academic_year_id);
     }
 
     public function getStudentLists(Request $req){
@@ -24,11 +30,17 @@ class FacultyStudentListController extends Controller
 
         $sId = $req->sid;
         $fId = $req->fid;
+        $acadYearId = $req->acadyearid;
 
-        $ay = AcademicYear::where('active', 1)->first();
-
-        return StudentList::with(['academicYear', 'schedule', 'faculty', 'student', 'student.program'])
-            ->where('academic_year_id', $ay->academic_year_id)
+        return StudentList::with([
+                'academicYear', 
+                'schedule.course', 
+                'faculty', 
+                'student', 
+                'student.program', 
+                'grade'
+            ])
+            ->where('academic_year_id', $acadYearId)
             ->where('faculty_id', $fId)
             ->where('schedule_id', $sId)
             ->whereHas('student', function($q) use ($req){
@@ -38,9 +50,9 @@ class FacultyStudentListController extends Controller
             ->get();
     }
 
+
     public function addStudent(Request $req){
         $ay = AcademicYear::where('active', 1)->first();
-
 
         /*===============================================
             Check if the student already exist in the list

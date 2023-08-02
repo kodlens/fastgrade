@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             RoomSeeder::class,
             ScheduleSeeder::class,
             FacultyLoadSeeder::class,
-            ProgramSeeder::class
+            ProgramSeeder::class,
+            StudentListSeeder::class
         ]);
     }
 }

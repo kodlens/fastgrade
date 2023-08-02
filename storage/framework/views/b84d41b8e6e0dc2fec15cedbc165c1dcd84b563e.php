@@ -8,8 +8,9 @@
         <div class="column is-6">
             <div class="box">
                 <faculty-student-list 
-                    prop-schedule-id="<?php echo e($sid); ?>"
-                    prop-faculty-id="<?php echo e($fid); ?>"></faculty-student-list>
+                    prop-schedule-id="<?php echo e($scheduleId); ?>"
+                    prop-faculty-id="<?php echo e($facultyId); ?>"
+                    prop-academic-year-id="<?php echo e($acadYearId); ?>"></faculty-student-list>
             </div>
         </div>
     </div>

@@ -8,8 +8,9 @@
         <div class="column is-6">
             <div class="box">
                 <faculty-student-list 
-                    prop-schedule-id="{{ $sid }}"
-                    prop-faculty-id="{{ $fid }}"></faculty-student-list>
+                    prop-schedule-id="{{ $scheduleId }}"
+                    prop-faculty-id="{{ $facultyId }}"
+                    prop-academic-year-id="{{ $acadYearId }}"></faculty-student-list>
             </div>
         </div>
     </div>

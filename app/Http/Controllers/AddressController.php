@@ -39,7 +39,5 @@ class AddressController extends Controller
         return $barangays;
     }
 
-    public function loadAcadYears(Request $req){
-        return AcademicYear::all();
-    }
+    
 }

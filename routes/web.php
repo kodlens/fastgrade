@@ -54,7 +54,7 @@ Route::get('/load-provinces', [App\Http\Controllers\AddressController::class, 'l
 Route::get('/load-cities', [App\Http\Controllers\AddressController::class, 'loadCities']);
 Route::get('/load-barangays', [App\Http\Controllers\AddressController::class, 'loadBarangays']);
 
-Route::get('/load-acadyears', [App\Http\Controllers\AddressController::class, 'loadAcadYears']);
+Route::get('/load-acadyears', [App\Http\Controllers\OpenController::class, 'loadAcadYears']);
 Route::get('/load-offices', [App\Http\Controllers\OpenController::class, 'loadOffices']);
 
 /*     ADMINSITRATOR          */
@@ -110,11 +110,12 @@ Route::middleware(['auth', 'faculty'])->group(function() {
     Route::resource('/faculty-faculty-load', App\Http\Controllers\Faculty\FacultyFacultyLoadController::class);
     Route::get('/get-faculty-faculty-loads', [App\Http\Controllers\Faculty\FacultyFacultyLoadController::class, 'getFacultyLoads']);
 
-    Route::get('/faculty-student-list/{sid}/{fid}', [App\Http\Controllers\Faculty\FacultyStudentListController::class, 'index']);
+    Route::get('/faculty-student-list', [App\Http\Controllers\Faculty\FacultyStudentListController::class, 'index']);
     Route::get('/get-student-lists', [App\Http\Controllers\Faculty\FacultyStudentListController::class, 'getStudentLists']);
     
     Route::post('/faculty-student-list-store', [App\Http\Controllers\Faculty\FacultyStudentListController::class, 'addStudent']);
     Route::delete('/faculty-student-list/{listId}', [App\Http\Controllers\Faculty\FacultyStudentListController::class, 'delete']);
+    Route::post('/grade-entry', [App\Http\Controllers\Faculty\FacultyStudentGradeController::class, 'store']);
 
     
 });

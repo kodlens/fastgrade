@@ -5,19 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class StudentList extends Model
+class StudentGrade extends Model
 {
     use HasFactory;
 
 
-    protected $table = 'student_lists';
-    protected $primaryKey = 'student_list_id';
+    protected $table = 'student_grades';
+    protected $primaryKey = 'student_grade_id';
 
 
-    protected $fillable = ['academic_year_id',
-        'schedule_id',
+    protected $fillable = [
+        'student_list_id',
+        'academic_year_id',
         'faculty_id',
         'student_id', 
+        'schedule_id',
+        'grade'
     ];
 
 
@@ -36,9 +39,4 @@ class StudentList extends Model
     public function student(){
         return $this->hasOne(User::class, 'user_id', 'student_id');
     }
-
-    public function grade(){
-        return $this->hasOne(StudentGrade::class, 'student_list_id', 'student_list_id');
-    }
-
 }

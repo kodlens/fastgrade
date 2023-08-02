@@ -7,7 +7,7 @@
         <div class="columns">
             <div class="column">
                 <b-field label="Select Academic Year">
-                    <b-select v-model="acadYearId" @input="loadFacultyLoads">
+                    <b-select v-model="acadYearId">
                         <option v-for="(item, ix) in acadYears" :key="ix"
                             :value="item.academic_year_id">{{ item.academic_year_code }} - {{ item.academic_year_desc }}</option>
                     </b-select>
@@ -69,13 +69,17 @@ export default{
             acadYears: [],
 
             facultyLoads: [],
-
         }
     },
 
     methods: {
         initData(){
-            this.acadYears = JSON.parse(this.propAcadYears)
+            //this.acadYears = JSON.parse(this.propAcadYears)
+            axios.get('/load-acadyears').then(res=>{
+                this.acadYears = res.data
+            }).catch(err=>{
+            
+            })
         },
 
         loadFacultyLoads(){
@@ -88,8 +92,13 @@ export default{
         },
 
         studentList(id, fid){
+            const params = [
+                `scheduleid=${id}`,
+                `facultyid=${fid}`,
+                `academicid=${this.acadYearId}`
+            ].join('&')
 
-            window.location = '/faculty-student-list/' + id + '/' + fid;
+            window.location = `/faculty-student-list?${params}`;
         }
     },
     mounted(){

@@ -10377,18 +10377,24 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     initData: function initData() {
-      this.acadYears = JSON.parse(this.propAcadYears);
+      var _this = this;
+
+      //this.acadYears = JSON.parse(this.propAcadYears)
+      axios.get('/load-acadyears').then(function (res) {
+        _this.acadYears = res.data;
+      })["catch"](function (err) {});
     },
     loadFacultyLoads: function loadFacultyLoads() {
-      var _this = this;
+      var _this2 = this;
 
       var params = ["acadYearId=".concat(this.acadYearId)].join('&');
       axios.get("/get-faculty-faculty-loads?".concat(params)).then(function (res) {
-        _this.facultyLoads = res.data;
+        _this2.facultyLoads = res.data;
       });
     },
     studentList: function studentList(id, fid) {
-      window.location = '/faculty-student-list/' + id + '/' + fid;
+      var params = ["scheduleid=".concat(id), "facultyid=".concat(fid), "academicid=".concat(this.acadYearId)].join('&');
+      window.location = "/faculty-student-list?".concat(params);
     }
   },
   mounted: function mounted() {
@@ -10723,13 +10729,91 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['propScheduleId', 'propFacultyId'],
+  props: ['propScheduleId', 'propFacultyId', 'propAcademicYearId'],
   data: function data() {
     return {
       data: [],
       search: {
         name: ''
+      },
+      isModalActive: false,
+      fields: {
+        student_list_id: 0,
+        schedule_id: 0,
+        student_id: 0,
+        faculty_id: 0,
+        academic_year_id: 0
       }
     };
   },
@@ -10737,10 +10821,9 @@ __webpack_require__.r(__webpack_exports__);
     loadStudentList: function loadStudentList() {
       var _this = this;
 
-      var params = ["sid=".concat(this.propScheduleId), "fid=".concat(this.propFacultyId), "name=".concat(this.search.name)].join('&');
+      var params = ["sid=".concat(this.propScheduleId), "fid=".concat(this.propFacultyId), "acadyearid=".concat(this.propAcademicYearId), "name=".concat(this.search.name)].join('&');
       axios.get("/get-student-lists?".concat(params)).then(function (res) {
-        _this.data = res.data;
-        console.log(res.data);
+        _this.data = res.data; //console.log(res.data)
       });
     },
     studentList: function studentList(id, fid) {
@@ -10804,10 +10887,67 @@ __webpack_require__.r(__webpack_exports__);
           _this4.loadStudentList();
         }
       });
+    },
+    modalGradeEntry: function modalGradeEntry(student_id, student_list_id) {
+      this.fields.student_list_id = student_list_id;
+      this.fields.schedule_id = this.propScheduleId;
+      this.fields.student_id = student_id;
+      this.fields.academic_year_id = this.propAcademicYearId;
+      this.fields.faculty_id = this.propFacultyId;
+      this.isModalActive = true;
+    },
+    submitGrade: function submitGrade() {
+      var _this5 = this;
+
+      axios.post('/grade-entry', this.fields).then(function (res) {
+        if (res.data.status === 'saved') {
+          _this5.isModalActive = false;
+
+          _this5.$buefy.dialog.alert({
+            title: 'Saved.',
+            message: 'Grade successfully saved.',
+            type: 'is-success',
+            onConfirm: function onConfirm() {
+              _this5.clearFields();
+
+              _this5.loadStudentList();
+            }
+          });
+        }
+      })["catch"](function (err) {//error here
+      });
+    },
+    clearFields: function clearFields() {
+      this.fields.student_list_id = 0;
+      this.fields.schedule_id = this.propScheduleId;
+      this.fields.student_id = 0;
+      this.fields.academic_year_id = this.propAcademicYearId;
+      this.fields.faculty_id = this.propFacultyId;
+      this.fields.grade = 0;
     }
   },
   mounted: function mounted() {
     this.loadStudentList();
+  },
+  computed: {
+    schedule: function schedule() {
+      if (this.data.length > 0) {
+        return {
+          schedule_id: this.data[0].schedule.schedule_id,
+          course_code: this.data[0].schedule.course.course_code,
+          course_desc: this.data[0].schedule.course.course_desc,
+          start_time: this.data[0].schedule.start_time,
+          end_time: this.data[0].schedule.end_time,
+          mon: this.data[0].schedule.mon,
+          tue: this.data[0].schedule.tue,
+          wed: this.data[0].schedule.wed,
+          thu: this.data[0].schedule.thu,
+          fri: this.data[0].schedule.fri,
+          sat: this.data[0].schedule.sat,
+          sun: this.data[0].schedule.sun
+        };
+      }
+    }
   }
 });
 
@@ -36852,7 +36992,6 @@ var render = function () {
               _c(
                 "b-select",
                 {
-                  on: { input: _vm.loadFacultyLoads },
                   model: {
                     value: _vm.acadYearId,
                     callback: function ($$v) {
@@ -37497,112 +37636,319 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "columns" }, [
-      _c(
-        "div",
-        { staticClass: "column" },
-        [
-          _c(
-            "b-field",
-            { attrs: { label: "Select Academic Year" } },
-            [
-              _c("b-input", {
-                attrs: { type: "text", placeholder: "Student Name" },
-                model: {
-                  value: _vm.search.name,
-                  callback: function ($$v) {
-                    _vm.$set(_vm.search, "name", $$v)
-                  },
-                  expression: "search.name",
-                },
-              }),
-              _vm._v(" "),
-              _c(
-                "p",
-                { staticClass: "control" },
-                [
-                  _c("b-button", {
-                    attrs: {
-                      label: "",
-                      "icon-left": "magnify",
-                      type: "is-info",
-                    },
-                    on: { click: _vm.loadStudentList },
-                  }),
-                ],
-                1
-              ),
-            ],
-            1
-          ),
-        ],
-        1
-      ),
-    ]),
-    _vm._v(" "),
-    _c("hr"),
-    _vm._v(" "),
-    _c("div", { staticClass: "columns" }, [
-      _c("div", { staticClass: "column" }, [
+  return _c(
+    "div",
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "columns" }, [
         _c(
-          "table",
-          { staticClass: "faculty-load" },
+          "div",
+          { staticClass: "column" },
           [
-            _vm._m(1),
-            _vm._v(" "),
-            _vm._l(_vm.data, function (item, idx) {
-              return _c("tr", { key: "i" + idx }, [
-                _c("td", [_vm._v(_vm._s(item.student.user_id))]),
-                _vm._v(" "),
-                _c("td", [
-                  _vm._v(
-                    _vm._s(item.student.lname) +
-                      ", " +
-                      _vm._s(item.student.lname) +
-                      " " +
-                      _vm._s(item.student.mname)
-                  ),
-                ]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(item.student.program.program_code))]),
+            _c(
+              "b-field",
+              { attrs: { label: "Search Name" } },
+              [
+                _c("b-input", {
+                  attrs: { type: "text", placeholder: "Student Name" },
+                  model: {
+                    value: _vm.search.name,
+                    callback: function ($$v) {
+                      _vm.$set(_vm.search, "name", $$v)
+                    },
+                    expression: "search.name",
+                  },
+                }),
                 _vm._v(" "),
                 _c(
-                  "td",
+                  "p",
+                  { staticClass: "control" },
                   [
                     _c("b-button", {
-                      staticClass: "is-small is-outlined",
-                      attrs: { type: "is-danger", "icon-left": "delete" },
-                      on: {
-                        click: function ($event) {
-                          return _vm.confirmRemoveStudent(item.student_list_id)
-                        },
+                      attrs: {
+                        label: "",
+                        "icon-left": "magnify",
+                        type: "is-info",
                       },
+                      on: { click: _vm.loadStudentList },
                     }),
                   ],
                   1
                 ),
-              ])
-            }),
-          ],
-          2
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "mt-4" },
-          [
-            _c("modal-browse-students", {
-              on: { browseStudents: _vm.emitBrowseStudents },
-            }),
+              ],
+              1
+            ),
           ],
           1
         ),
       ]),
-    ]),
-  ])
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("div", { staticClass: "columns" }, [
+        _c("div", { staticClass: "column" }, [
+          _vm.schedule
+            ? _c("div", { staticClass: "schedule-container" }, [
+                _c("div", [
+                  _c("b", [_vm._v("Course: ")]),
+                  _vm._v(" "),
+                  _c("span", [
+                    _vm._v(
+                      _vm._s(_vm.schedule.course_code) +
+                        " - " +
+                        _vm._s(_vm.schedule.course_desc)
+                    ),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("b", [_vm._v("Schedule: ")]),
+                  _vm._v(" "),
+                  _c("span", [
+                    _vm._v(
+                      _vm._s(_vm._f("formatTime")(_vm.schedule.start_time)) +
+                        " - " +
+                        _vm._s(_vm._f("formatTime")(_vm.schedule.end_time))
+                    ),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("b", [_vm._v("Day: ")]),
+                  _vm._v(" "),
+                  _vm.schedule.mon ? _c("span", [_vm._v("M")]) : _vm._e(),
+                  _vm._v(" "),
+                  _vm.schedule.tue ? _c("span", [_vm._v("T")]) : _vm._e(),
+                  _vm._v(" "),
+                  _vm.schedule.wed ? _c("span", [_vm._v("W")]) : _vm._e(),
+                  _vm._v(" "),
+                  _vm.schedule.thu ? _c("span", [_vm._v("TH")]) : _vm._e(),
+                  _vm._v(" "),
+                  _vm.schedule.fri ? _c("span", [_vm._v("F")]) : _vm._e(),
+                  _vm._v(" "),
+                  _vm.schedule.sat ? _c("span", [_vm._v("SAT")]) : _vm._e(),
+                  _vm._v(" "),
+                  _vm.schedule.sun ? _c("span", [_vm._v("SUN")]) : _vm._e(),
+                ]),
+              ])
+            : _c("div", [
+                _c(
+                  "div",
+                  {
+                    staticStyle: {
+                      color: "lightgray",
+                      "font-weight": "bold",
+                      "text-align": "center",
+                    },
+                  },
+                  [_vm._v("NOTHING FOUND...")]
+                ),
+              ]),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c(
+            "table",
+            { staticClass: "faculty-load" },
+            [
+              _vm._m(1),
+              _vm._v(" "),
+              _vm._l(_vm.data, function (item, idx) {
+                return _c("tr", { key: "i" + idx }, [
+                  _c("td", [_vm._v(_vm._s(item.student.user_id))]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      _vm._s(item.student.lname) +
+                        ", " +
+                        _vm._s(item.student.lname) +
+                        " " +
+                        _vm._s(item.student.mname)
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.student.program.program_code))]),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    {
+                      staticStyle: {
+                        "font-weight": "bold",
+                        "text-align": "center",
+                      },
+                    },
+                    [
+                      item.grade
+                        ? _c("span", [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(item.grade.grade) +
+                                "\n                        "
+                            ),
+                          ])
+                        : _vm._e(),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    [
+                      _c(
+                        "b-tooltip",
+                        {
+                          staticClass: "is-danger",
+                          attrs: { label: "Remove" },
+                        },
+                        [
+                          _c("b-button", {
+                            staticClass: "is-small is-outlined",
+                            attrs: { type: "is-danger", "icon-left": "delete" },
+                            on: {
+                              click: function ($event) {
+                                return _vm.confirmRemoveStudent(
+                                  item.student_list_id
+                                )
+                              },
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-tooltip",
+                        {
+                          staticClass: "is-info",
+                          attrs: { label: "Grade Entry" },
+                        },
+                        [
+                          _c("b-button", {
+                            staticClass: "is-small is-outlined",
+                            attrs: {
+                              type: "is-info",
+                              "icon-left": "chart-donut",
+                            },
+                            on: {
+                              click: function ($event) {
+                                return _vm.modalGradeEntry(
+                                  item.student_id,
+                                  item.student_list_id
+                                )
+                              },
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ])
+              }),
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "mt-4" },
+            [
+              _c("modal-browse-students", {
+                on: { browseStudents: _vm.emitBrowseStudents },
+              }),
+            ],
+            1
+          ),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            "has-modal-card": "",
+            "trap-focus": "",
+            scroll: "keep",
+            "aria-role": "dialog",
+            "aria-modal": "",
+          },
+          model: {
+            value: _vm.isModalActive,
+            callback: function ($$v) {
+              _vm.isModalActive = $$v
+            },
+            expression: "isModalActive",
+          },
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass: "modal-card",
+              staticStyle: { "max-width": "300px" },
+            },
+            [
+              _c("header", { staticClass: "modal-card-head" }, [
+                _c("p", { staticClass: "modal-card-title" }, [
+                  _vm._v("Grade Entry"),
+                ]),
+                _vm._v(" "),
+                _c("button", {
+                  staticClass: "delete",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function ($event) {
+                      _vm.isModalActive = false
+                    },
+                  },
+                }),
+              ]),
+              _vm._v(" "),
+              _c("section", { staticClass: "modal-card-body" }, [
+                _c(
+                  "div",
+                  [
+                    _c(
+                      "b-field",
+                      { attrs: { label: "Grade" } },
+                      [
+                        _c("b-numberinput", {
+                          attrs: { type: "number", controls: false },
+                          model: {
+                            value: _vm.fields.grade,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.fields, "grade", $$v)
+                            },
+                            expression: "fields.grade",
+                          },
+                        }),
+                      ],
+                      1
+                    ),
+                  ],
+                  1
+                ),
+              ]),
+              _vm._v(" "),
+              _c(
+                "footer",
+                { staticClass: "modal-card-foot" },
+                [
+                  _c("b-button", {
+                    attrs: { label: "Save", type: "is-success" },
+                    on: { click: _vm.submitGrade },
+                  }),
+                ],
+                1
+              ),
+            ]
+          ),
+        ]
+      ),
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function () {
@@ -37629,6 +37975,8 @@ var staticRenderFns = [
       _c("th", [_vm._v("Name")]),
       _vm._v(" "),
       _c("th", [_vm._v("Program & Year")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Grade")]),
       _vm._v(" "),
       _c("th", [_vm._v("Action")]),
     ])
