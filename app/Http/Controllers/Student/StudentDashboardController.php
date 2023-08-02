@@ -12,4 +12,6 @@ class StudentDashboardController extends Controller
     public function index(){
         return view('student.student-dashboard');
     }
+
+
 }

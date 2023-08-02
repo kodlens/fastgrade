@@ -1,4 +1,4 @@
-@extends('layouts.faculty-layout')
+@extends('layouts.student-layout')
 
 @section('content')
 
@@ -7,7 +7,7 @@
     <div class="columns is-centered">
         <div class="column is-8">
             <div class="box">
-                <student-courses></student-courses>
+                <my-courses></student-courses>
             </div>
         </div>
     </div>
