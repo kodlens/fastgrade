@@ -127,7 +127,21 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/get-modal-student-lists', [App\Http\Controllers\Modal\ModalStudentListController::class, 'getModalStudentList']);
 });
 
-/*     ADMINSITRATOR          */
+
+
+
+Route::middleware(['auth', 'student'])->group(function() {
+
+    Route::get('/student-dashboard', [App\Http\Controllers\Student\StudentDashboardController::class, 'index']);
+
+    Route::resource('/student-courses', App\Http\Controllers\Student\StudentCourseController::class);
+
+});
+
+
+
+
+
 
 Route::get('/session', function(){
     return Session::all();
