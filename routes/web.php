@@ -78,6 +78,9 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::resource('/courses', App\Http\Controllers\Administrator\CourseController::class);
     Route::get('/get-courses', [App\Http\Controllers\Administrator\CourseController::class, 'getData']);
 
+    Route::resource('/schedules', App\Http\Controllers\Administrator\ScheduleController::class);
+    Route::get('/get-schedules', [App\Http\Controllers\Administrator\ScheduleController::class, 'getData']);
+
     Route::resource('/faculty', App\Http\Controllers\Administrator\FacultyController::class);
     Route::get('/get-faculty', [App\Http\Controllers\Administrator\FacultyController::class, 'getData']);
 
@@ -125,6 +128,9 @@ Route::middleware(['auth'])->group(function() {
 
     //Get student list in modal
     Route::get('/get-modal-student-lists', [App\Http\Controllers\Modal\ModalStudentListController::class, 'getModalStudentList']);
+
+    Route::get('/get-modal-cousres-lists', [App\Http\Controllers\Modal\ModalCoursesController::class, 'getModalCoursesList']);
+
 });
 
 

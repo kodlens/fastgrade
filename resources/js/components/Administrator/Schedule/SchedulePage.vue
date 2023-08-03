@@ -1,150 +1,122 @@
 <template>
     <div>
-        <div class="section">
-            <div class="columns is-centered">
-                <div class="column is-6-desktop is-8-tablet">
-                    <div class="box">
+        <div class="is-flex is-justify-content-center mb-4" style="font-size: 20px; font-weight: bold;">SCHEDULES</div>
+        
+        <div class="columns">
+            <div class="column">
+                <b-field label="Academic Year" label-position="on-border">
+                    <b-select v-model="search.academic_year_id">
+                        <option v-for="(item, ix) in acadYears"
+                            :key="ix" 
+                            :value="item.academic_year_id">{{ item.academic_year_code }} - {{ item.academic_year_desc }}</option>
+                    </b-select>
+                </b-field>
+            </div>
+            
+        </div>
 
-                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">OFFICES</div>
+        <div class="columns">
+            <div class="column">
+                <b-field label="Page" label-position="on-border">
+                    <b-select v-model="perPage" @input="setPerPage">
+                        <option value="5">5 per page</option>
+                        <option value="10">10 per page</option>
+                        <option value="15">15 per page</option>
+                        <option value="20">20 per page</option>
+                    </b-select>
+                    <b-select v-model="sortOrder" @input="loadAsyncData">
+                        <option value="asc">ASC</option>
+                        <option value="desc">DESC</option>
+                    </b-select>
+                </b-field>
+            </div>
 
-                        <div class="level">
-                            <div class="level-left">
-                                <b-field label="Page">
-                                    <b-select v-model="perPage" @input="setPerPage">
-                                        <option value="5">5 per page</option>
-                                        <option value="10">10 per page</option>
-                                        <option value="15">15 per page</option>
-                                        <option value="20">20 per page</option>
-                                    </b-select>
-                                    <b-select v-model="sortOrder" @input="loadAsyncData">
-                                        <option value="asc">ASC</option>
-                                        <option value="desc">DESC</option>
+            <div class="column">
+                <b-field label="Search" label-position="on-border" class="is-pulled-right">
+                    <b-input type="text"
+                        v-model="search.office" placeholder="Search Schedule"
+                        @keyup.native.enter="loadAsyncData"/>
+                    <p class="control">
+                        <b-tooltip label="Search" type="is-success">
+                            <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
+                        </b-tooltip>
+                    </p>
+                </b-field>
+            </div>
+        </div>
+        
 
-                                    </b-select>
-                                </b-field>
-                            </div>
+        <b-table
+            :data="data"
+            :loading="loading"
+            paginated
+            :bordered="true"
+            :hoverable="true"
+            backend-pagination
+            :total="total"
+            :per-page="perPage"
+            @page-change="onPageChange"
+            aria-next-label="Next page"
+            aria-previous-label="Previous page"
+            aria-page-label="Page"
+            aria-current-label="Current page"
+            backend-sorting
+            :default-sort-direction="defaultSortDirection"
+            @sort="onSort">
 
-                            <div class="level-right">
-                                <div class="level-item">
-                                    <b-field label="Search">
-                                        <b-input type="text"
-                                                 v-model="search.office" placeholder="Search Office"
-                                                 @keyup.native.enter="loadAsyncData"/>
-                                        <p class="control">
-                                             <b-tooltip label="Search" type="is-success">
-                                            <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
-                                             </b-tooltip>
-                                        </p>
-                                    </b-field>
-                                </div>
-                            </div>
-                        </div>
+            <b-table-column field="schedule_id" label="ID" v-slot="props">
+                {{ props.row.schedule_id }}
+            </b-table-column>
 
-                        <b-table
-                            :data="data"
-                            :loading="loading"
-                            paginated
-                            :bordered="true"
-                            :hoverable="true"
-                            backend-pagination
-                            :total="total"
-                            :per-page="perPage"
-                            @page-change="onPageChange"
-                            aria-next-label="Next page"
-                            aria-previous-label="Previous page"
-                            aria-page-label="Page"
-                            aria-current-label="Current page"
-                            backend-sorting
-                            :default-sort-direction="defaultSortDirection"
-                            @sort="onSort">
+            <b-table-column field="course" label="Course" v-slot="props">
+                {{ props.row.course.course_code }} {{ props.row.course.course_desc}}
+            </b-table-column>
 
-                            <b-table-column field="schedule_id" label="ID" v-slot="props">
-                                {{ props.row.schedule_id }}
-                            </b-table-column>
+            <b-table-column field="type" label="Type" v-slot="props">
+                {{ props.row.course.course_type }}
+            </b-table-column>
 
-                            <b-table-column field="course_code" label="Course Code" v-slot="props">
-                                {{ props.row.schedule.course.course_code }}
-                            </b-table-column>
+            <b-table-column field="unit" label="Unit" v-slot="props">
+                {{ props.row.course.course_unit }}
+            </b-table-column>
 
-                            <b-table-column field="created_at" label="Created" v-slot="props">
-                                {{ props.row.created_at | formatDateTime }}
-                            </b-table-column>
-                         
-                            <b-table-column label="Action" v-slot="props">
-                                <div class="is-flex">
-                                    <b-tooltip label="Edit" type="is-warning">
-                                        <b-button class="button is-small is-warning mr-1" tag="a" icon-right="pencil" @click="getData(props.row.office_id)"></b-button>
-                                    </b-tooltip>
-                                    <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small is-danger mr-1" icon-right="delete" @click="confirmDelete(props.row.office_id)"></b-button>
-                                    </b-tooltip>
-                                </div>
-                            </b-table-column>
-                        </b-table>
+            <b-table-column field="created_at" label="Schedule" v-slot="props">
+                {{ props.row.start_time | formatTime }} - {{ props.row.end_time | formatTime }}
+            </b-table-column>
 
-                        <div class="float-button">
-                            <b-button @click="openModal" 
-                                icon-right="plus-circle-outline" 
-                                class="is-success"
-                                label="NEW OFFICE">
-                            </b-button>
-                        </div>
-                        
-                    </div>
-                </div><!--col -->
-            </div><!-- cols -->
-        </div><!--section div-->
+             <b-table-column field="created_at" label="Schedule" v-slot="props">
+                <span v-if="props.row.mon">M</span>
+                <span v-if="props.row.tue">T</span>
+                <span v-if="props.row.wed">W</span>
+                <span v-if="props.row.thu">TH</span>
+                <span v-if="props.row.fri">F</span>
+                <span v-if="props.row.sat">SAT</span>
+                <span v-if="props.row.sun">SUN</span>
+            </b-table-column>
 
-
-
-        <!--modal create-->
-        <b-modal v-model="isModalCreate" has-modal-card
-                 trap-focus
-                 :width="640"
-                 aria-role="dialog"
-                 aria-label="Modal"
-                 aria-modal>
-
-            <form @submit.prevent="submit">
-                <div class="modal-card">
-                    <header class="modal-card-head">
-                        <p class="modal-card-title">Office Information</p>
-                        <button
-                            type="button"
-                            class="delete"
-                            @click="isModalCreate = false"/>
-                    </header>
-
-                    <section class="modal-card-body">
-                        <div class="">
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Office" label-position="on-border"
-                                             :type="this.errors.office ? 'is-danger':''"
-                                             :message="this.errors.office ? this.errors.office[0] : ''">
-                                        <b-input v-model="fields.office"
-                                                 placeholder="Office" required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                            </div>
-                        
-                        </div>
-                    </section>
-                    <footer class="modal-card-foot">
-                        
-                        <button
-                            :class="btnClass"
-                            label="Save"
-                            type="is-success">SAVE</button>
-                    </footer>
+            
+            <b-table-column label="Action" v-slot="props">
+                <div class="is-flex">
+                    <b-tooltip label="Edit" type="is-warning">
+                        <b-button class="button is-small is-warning mr-1" tag="a" icon-right="pencil"
+                            :href="`/schedules/${props.row.schedule_id}/edit`"></b-button>
+                    </b-tooltip>
+                    <b-tooltip label="Delete" type="is-danger">
+                        <b-button class="button is-small is-danger mr-1" icon-right="delete" @click="confirmDelete(props.row.office_id)"></b-button>
+                    </b-tooltip>
                 </div>
-            </form><!--close form-->
-        </b-modal>
-        <!--close modal-->
+            </b-table-column>
+        </b-table>
 
+        <div class="float-button">
+            <b-button tag="a" href="/schedules/create"
+                icon-right="plus-circle-outline" 
+                class="is-success"
+                label="NEW SCHEDULE">
+            </b-button>
+        </div>
 
-    </div>
+    </div> <!--root div-->
 </template>
 
 <script>
@@ -155,27 +127,21 @@ export default{
             data: [],
             total: 0,
             loading: false,
-            sortField: 'office_id',
+            sortField: 'schedule_id',
             sortOrder: 'desc',
             page: 1,
-            perPage: 5,
+            perPage: 20,
             defaultSortDirection: 'asc',
 
 
-            global_id : 0,
+            acadYears : [],
 
             search: {
-                office: '',
+                academic_year_id: null
             },
 
             isModalCreate: false,
 
-            fields: {
-                office: ''
-            },
-
-            errors: {},
-         
 
             btnClass: {
                 'is-success': true,
@@ -194,13 +160,13 @@ export default{
         loadAsyncData() {
             const params = [
                 `sort_by=${this.sortField}.${this.sortOrder}`,
-                `lname=${this.search.lname}`,
+                `acadyearid=${this.search.academic_year_id}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`
             ].join('&')
 
             this.loading = true
-            axios.get(`/get-offices?${params}`)
+            axios.get(`/get-schedules?${params}`)
                 .then(({ data }) => {
                     this.data = [];
                     let currentTotal = data.total
@@ -247,57 +213,6 @@ export default{
         },
 
 
-
-        submit: function(){
-            if(this.global_id > 0){
-                //update
-                axios.put('/offices/'+this.global_id, this.fields).then(res=>{
-                    if(res.data.status === 'updated'){
-                        this.$buefy.dialog.alert({
-                            title: 'UPDATED!',
-                            message: 'Successfully updated.',
-                            type: 'is-success',
-                            onConfirm: () => {
-                                this.loadAsyncData();
-                                this.clearFields();
-                                this.global_id = 0;
-                                this.isModalCreate = false;
-                            }
-                        })
-                    }
-                }).catch(err=>{
-                    if(err.response.status === 422){
-                        this.errors = err.response.data.errors;
-                    }
-                })
-            }else{
-                //INSERT HERE
-                axios.post('/offices', this.fields).then(res=>{
-                    if(res.data.status === 'saved'){
-                        this.$buefy.dialog.alert({
-                            title: 'SAVED!',
-                            message: 'Successfully saved.',
-                            type: 'is-success',
-                            confirmText: 'OK',
-                            onConfirm: () => {
-                                this.isModalCreate = false;
-                                this.loadAsyncData();
-                                this.clearFields();
-                                this.global_id = 0;
-                            }
-                        })
-                    }
-                }).catch(err=>{
-                    if(err.response.status === 422){
-                        this.errors = err.response.data.errors;
-                    }
-                });
-
-
-            }
-        },
-
-
         //alert box ask for deletion
         confirmDelete(delete_id) {
             this.$buefy.dialog.confirm({
@@ -320,29 +235,19 @@ export default{
             });
         },
 
-        clearFields(){
-            this.fields = {
-                office: '',
-            };
-        },
+        loadAcademicYears(){
+            axios.get('/load-acadyears').then(res=>{
+                this.acadYears = res.data
+                this.search.academic_year_id = (this.acadYears.filter(item => item.active === 1)[0].academic_year_id)
 
-
-        //update code here
-        getData: function(data_id){
-            this.clearFields();
-            this.global_id = data_id;
-            this.isModalCreate = true;
-
-
-            //nested axios for getting the address 1 by 1 or request by request
-            axios.get('/offices/'+data_id).then(res=>{
-                this.fields = res.data;
-            });
-        },
+                this.loadAsyncData();
+            })
+        }
     },
 
     mounted() {
-        this.loadAsyncData();
+       // this.loadAsyncData();
+        this.loadAcademicYears()
     }
 }
 </script>

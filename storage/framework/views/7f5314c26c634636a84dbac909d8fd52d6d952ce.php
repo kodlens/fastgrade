@@ -50,7 +50,7 @@
                     Home
                 </b-navbar-item>
 
-                <b-navbar-item href="/student-courses">
+                <b-navbar-item href="/my-courses">
                     My Courses
                 </b-navbar-item>
 

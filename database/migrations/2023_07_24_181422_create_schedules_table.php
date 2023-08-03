@@ -20,7 +20,8 @@ class CreateSchedulesTable extends Migration
             $table->foreign('academic_year_id')->references('academic_year_id')->on('academic_years')
                 ->onDelete('cascade')->onUpdate('cascade');
 
-            $table->unsignedBigInteger('program_id')->default(0);
+            $table->unsignedBigInteger('program_id')->default(0)
+                ->nullable();
             
             
             $table->unsignedBigInteger('course_id');

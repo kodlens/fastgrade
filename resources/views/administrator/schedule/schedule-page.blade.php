@@ -1,13 +1,13 @@
-@extends('layouts.student-layout')
+@extends('layouts.admin-layout')
 
 @section('content')
 
 <section class="section">
 
     <div class="columns is-centered">
-        <div class="column is-8-desktop is-10-tablet">
+        <div class="column is-10">
             <div class="box">
-                <my-courses></student-courses>
+                <schedule-page></schedule-page>
             </div>
         </div>
     </div>
