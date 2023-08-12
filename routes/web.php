@@ -144,7 +144,6 @@ Route::middleware(['auth', 'student'])->group(function() {
     Route::get('/get-my-courses', [App\Http\Controllers\Student\MyStudentCourseController::class, 'getMyCourses']);
     Route::get('/my-courses-print', [App\Http\Controllers\Student\MyStudentCourseController::class, 'myCoursePrint']);
     
-
 });
 
 

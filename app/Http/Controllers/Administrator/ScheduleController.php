@@ -47,7 +47,7 @@ class ScheduleController extends Controller
 
 
     public function store(Request $req){
-        return $req;
+        //return $req;
 
         $forceSave = $req->forcesave;
 

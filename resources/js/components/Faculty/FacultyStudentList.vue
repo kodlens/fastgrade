@@ -135,7 +135,6 @@ export default{
                 name: '',
             },
 
-
             isModalActive: false,
 
             fields: {
@@ -227,8 +226,6 @@ export default{
                 }
             })
         },
-
-
 
         modalGradeEntry(student_id, student_list_id){
 

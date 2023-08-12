@@ -65,9 +65,9 @@
                     <b-navbar-item href="/schedules">
                         Schedules
                     </b-navbar-item>
-                    <b-navbar-item href="/offices">
+                    {{-- <b-navbar-item href="/offices">
                         Offices
-                    </b-navbar-item>
+                    </b-navbar-item> --}}
                 </b-navbar-dropdown>
 
                 <b-navbar-dropdown label="Faculty">

@@ -3,6 +3,17 @@
         <div>
             <p class="has-text-weight-bold mb-4 has-text-centered title is-5">FACULTY PROFILE</p>
         </div>
+
+        <div class="columns">
+            <div class="column">
+                <b-field label="Identification No.">
+                    <b-input
+                        type="text"
+                        v-model="faculty.ref_id"
+                        placeholder="Identification No."></b-input>
+                </b-field>
+            </div>
+        </div>
         <div class="columns">
             <div class="column">
                 <b-field label="Last Name">
@@ -148,7 +159,7 @@ export default{
         return{
             faculty: {
                 user_id: 0,
-
+                ref_id: '',
                 province: {
                     provCode: null
                 },
@@ -174,7 +185,11 @@ export default{
             //this.faculty = JSON.parse(this.propFaculty)
             axios.get('/faculty-profile-info').then(res=>{
                 tempData = res.data;
+
+
+                console.log(tempData)
                 this.faculty.user_id = tempData.user_id
+                this.faculty.ref_id = tempData.ref_id
                 this.faculty.lname = tempData.lname
                 this.faculty.fname = tempData.fname
                 this.faculty.mname = tempData.mname
@@ -195,7 +210,8 @@ export default{
 
                     axios.get('/load-barangays?prov=' +this.faculty.province + '&city_code='+this.faculty.city).then(res=>{
                         this.barangays = res.data;
-                        this.faculty.barangay = tempData.barangay.brgyCode
+                        this.faculty.barangay = tempData.barangay ? tempData.barangay.brgyCode : '';
+
                     });
                 });
             });

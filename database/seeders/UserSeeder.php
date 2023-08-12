@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
         $data = [
             [
                 'username' => 'admin',
+                'ref_id' => 'ADMIN',
                 'lname' => 'AMPARADO',
                 'fname' => 'ETIENNE WAYNE',
                 'mname' => '',
@@ -33,6 +34,7 @@ class UserSeeder extends Seeder
 
             [
                 'username' => 'ics',
+                'ref_id' => 'DEAN',
                 'lname' => 'CABATINGAN',
                 'fname' => 'CARIN',
                 'mname' => '',
@@ -48,6 +50,7 @@ class UserSeeder extends Seeder
 
             [
                 'username' => 'ibfs',
+                'ref_id' => 'DEAN',
                 'lname' => 'TIA',
                 'fname' => 'JENNIEFFER',
                 'mname' => '',
@@ -63,6 +66,7 @@ class UserSeeder extends Seeder
 
             [
                 'username' => 'janjan',
+                'ref_id' => '201234',
                 'lname' => 'CAGADAS',
                 'fname' => 'JOHN MICHAEL',
                 'mname' => '',
@@ -77,6 +81,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'username' => 'leda',
+                'ref_id' => 'FACULTY',
                 'lname' => 'ABELLA',
                 'fname' => 'LEDA GRACE',
                 'mname' => '',
@@ -91,6 +96,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'username' => 'junrey',
+                'ref_id' => 'FACULTY',
                 'lname' => 'SANTARITA',
                 'fname' => 'JUNREY',
                 'mname' => '',
@@ -105,6 +111,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'username' => 'etet',
+                'ref_id' => 'FACULTY',
                 'lname' => 'AMPARADO',
                 'fname' => 'ETIENNE WAYNE',
                 'mname' => '',
@@ -119,6 +126,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'username' => 'makmak',
+                'ref_id' => '201122',
                 'lname' => 'BASAYA',
                 'fname' => 'MC GYVER',
                 'mname' => '',
@@ -135,6 +143,7 @@ class UserSeeder extends Seeder
 
             [
                 'username' => 'nimchie',
+                'ref_id' => '201223',
                 'lname' => 'HIBAYA',
                 'fname' => 'NIMCHIE',
                 'mname' => '',
@@ -149,6 +158,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'username' => 'itching',
+                'ref_id' => '201213',
                 'lname' => 'MAGLANGIT',
                 'fname' => 'RICHIE',
                 'mname' => '',
@@ -163,6 +173,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'username' => 'haziel',
+                'ref_id' => '201113',
                 'lname' => 'ALGADIPE',
                 'fname' => 'HAZIEL',
                 'mname' => '',
@@ -177,6 +188,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'username' => 'jesa',
+                'ref_id' => '202113',
                 'lname' => 'BECHAYDA',
                 'fname' => 'JESA',
                 'mname' => '',
@@ -191,6 +203,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'username' => 'marjhon',
+                'ref_id' => '202213',
                 'lname' => 'PUCOT',
                 'fname' => 'MARJHON',
                 'mname' => '',
@@ -205,6 +218,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'username' => 'roger',
+                'ref_id' => '205513',
                 'lname' => 'LACAPAG',
                 'fname' => 'ROGER',
                 'mname' => '',
@@ -219,6 +233,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'username' => 'charles',
+                'ref_id' => '201223',
                 'lname' => 'VARGAS',
                 'fname' => 'charles',
                 'mname' => '',

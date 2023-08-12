@@ -10796,11 +10796,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       faculty: {
         user_id: 0,
+        ref_id: '',
         province: {
           provCode: null
         },
@@ -10826,7 +10838,9 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/faculty-profile-info').then(function (res) {
         tempData = res.data;
+        console.log(tempData);
         _this.faculty.user_id = tempData.user_id;
+        _this.faculty.ref_id = tempData.ref_id;
         _this.faculty.lname = tempData.lname;
         _this.faculty.fname = tempData.fname;
         _this.faculty.mname = tempData.mname;
@@ -10845,7 +10859,7 @@ __webpack_require__.r(__webpack_exports__);
           _this.faculty.city = tempData.city ? tempData.city.citymunCode : '';
           axios.get('/load-barangays?prov=' + _this.faculty.province + '&city_code=' + _this.faculty.city).then(function (res) {
             _this.barangays = res.data;
-            _this.faculty.barangay = tempData.barangay.brgyCode;
+            _this.faculty.barangay = tempData.barangay ? tempData.barangay.brgyCode : '';
           });
         });
       });
@@ -30862,7 +30876,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card-width[data-v-4f01a62c]{\r\n    width: 640px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card-width[data-v-4f01a62c]{\n    width: 640px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38747,6 +38761,33 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", [
     _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "columns" }, [
+      _c(
+        "div",
+        { staticClass: "column" },
+        [
+          _c(
+            "b-field",
+            { attrs: { label: "Identification No." } },
+            [
+              _c("b-input", {
+                attrs: { type: "text", placeholder: "Identification No." },
+                model: {
+                  value: _vm.faculty.ref_id,
+                  callback: function ($$v) {
+                    _vm.$set(_vm.faculty, "ref_id", $$v)
+                  },
+                  expression: "faculty.ref_id",
+                },
+              }),
+            ],
+            1
+          ),
+        ],
+        1
+      ),
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "columns" }, [
       _c(
