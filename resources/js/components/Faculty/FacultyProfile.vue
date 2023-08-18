@@ -185,8 +185,6 @@ export default{
             //this.faculty = JSON.parse(this.propFaculty)
             axios.get('/faculty-profile-info').then(res=>{
                 tempData = res.data;
-
-
                 console.log(tempData)
                 this.faculty.user_id = tempData.user_id
                 this.faculty.ref_id = tempData.ref_id
